@@ -9,6 +9,9 @@ class UrlMappings {
             }
         }
 
+        /*-------------------- Auth APIs ----------------------*/
+        "/api/auth/register"        (controller: "AuthApi") { action = [GET: "register"] }
+
         /*-------------------- Error Handling ----------------------*/
         "500"(controller: "Utils", action: "handleError")
         "404"(controller: "Utils", action: "handle404")
