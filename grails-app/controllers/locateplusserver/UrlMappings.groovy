@@ -9,8 +9,8 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/index")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+        /*-------------------- Error Handling ----------------------*/
+        "500"(controller: "Utils", action: "handleError")
+        "404"(controller: "Utils", action: "handle404")
     }
 }
