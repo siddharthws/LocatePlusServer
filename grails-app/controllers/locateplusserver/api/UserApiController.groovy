@@ -13,12 +13,10 @@ class UserApiController {
         def lng = request.JSON.longitude
         def name = request.JSON.name
         def address = request.JSON.address
-        def cat = request.JSON.category
 
-        Category category = new Category()
-        category.name = cat
-
-        place.category = category
+        Category category = new Category(
+                name: request.JSON.category
+        )
 
         //creating a new pace object
         PlaceDetails place = new PlaceDetails(
@@ -26,7 +24,7 @@ class UserApiController {
                 latitude    : lat,
                 longitude   : lng,
                 address     : address,
-                category    : cat
+                category    : category
         )
 
 
@@ -38,18 +36,17 @@ class UserApiController {
         render resp as JSON
     }
 
-    def getPlace(PlaceDetails place) {
+    def getPlace() {
         // Find place data by id
-        def p = PlaceDetails.findAllByid(place.id)
+        def place = PlaceDetails.findById(1)
 
         // Create Place Json object
         def placeJson = [
-                id          : p.id,
-                name        : p.name,
-                latitude    : p.lat,
-                longitude   : p.lng,
-                address     : p.address,
-                category    : p.category
+                name        : place.name,
+                latitude    : place.latitude,
+                longitude   : place.longitude,
+                address     : place.address,
+                category    : place.category
         ]
 
         def resp = placeJson
