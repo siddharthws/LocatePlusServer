@@ -15,5 +15,9 @@ class UrlMappings {
         /*-------------------- Error Handling ----------------------*/
         "500"(controller: "Utils", action: "handleError")
         "404"(controller: "Utils", action: "handle404")
+
+        /*---------------------User APIs-----------------------*/
+        "/api/user/addPlace"        (controller: "UserApi") { action = [POST : "addPlace"]}
+        "/api/user/getPlace"        (controller: "UserApi") { action = [GET  : "getPlace"]}
     }
 }
