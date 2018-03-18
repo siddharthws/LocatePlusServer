@@ -7,4 +7,8 @@ class Facility {
     Date lastUpdated
 
     String name
+
+    static belongsTo = [
+            place : Place
+    ]
 }

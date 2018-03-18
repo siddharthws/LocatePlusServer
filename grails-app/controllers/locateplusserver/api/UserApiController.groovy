@@ -1,32 +1,53 @@
 package locateplusserver.api
 
 import grails.converters.JSON
-import locateplusserver.domains.PlaceDetails
+import locateplusserver.domains.Place
 import locateplusserver.domains.Category
+import locateplusserver.domains.User
+import locateplusserver.ApiException
+import locateplusserver.Constants
+import org.grails.web.json.JSONArray
 
 class UserApiController {
+    // ----------------------- Dependencies ---------------------------//
+    def userService
+
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
     def addPlace() {
+
+        def imei = request.getHeader("imei")
+
+        def user = userService.getByImei(imei)
+
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         //get data from JSON
+        def name = request.JSON.name
         def lat = request.JSON.latitude
         def lng = request.JSON.longitude
-        def name = request.JSON.name
         def address = request.JSON.address
+        def cat = request.JSON.category
 
-        Category category = new Category(
-                name: request.JSON.category
-        )
+        def category = userService.getCategory(cat)
+
+        if(!category)
+        {
+            throw new ApiException("Invalid Category", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         //creating a new pace object
-        PlaceDetails place = new PlaceDetails(
+        Place place = new Place(
                 name        : name,
                 latitude    : lat,
                 longitude   : lng,
                 address     : address,
-                category    : category
+                user        : user,
+                category    :category
         )
-
 
         //save place
         place.save(flush: true, failOnError: true)
@@ -36,20 +57,27 @@ class UserApiController {
         render resp as JSON
     }
 
-    def getPlace() {
-        // Find place data by id
-        def place = PlaceDetails.findById(1)
+    def getPlaces() {
 
-        // Create Place Json object
-        def placeJson = [
-                name        : place.name,
-                latitude    : place.latitude,
-                longitude   : place.longitude,
-                address     : place.address,
-                category    : place.category
-        ]
+        def imei = request.getHeader("imei")
 
-        def resp = placeJson
+        User user = userService.getByImei(imei)
+
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def placeList = userService.getAllPlaces()
+        def resp = new JSONArray()
+
+        // Create Place Json objects
+        placeList.each { member ->
+            resp.add(locateplusserver.Marshaller.serializePlace(member))
+        }
+
         render resp as JSON
     }
+
+
 }
