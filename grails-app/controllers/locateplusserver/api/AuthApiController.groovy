@@ -14,13 +14,14 @@ class AuthApiController {
     // API to register a user and return user details
     def register() {
         // Get IMEI from request
+        def role = request.JSON.role
         String imei = request.getHeader("imei")
         if (!imei) {
             throw new ApiException("Invalid registration request", Constants.HttpCodes.BAD_REQUEST)
         }
 
         // Register user
-        User user = authService.register(imei)
+        User user = authService.register(imei , role)
 
         // Return user details
         def resp = userService.toJson(user)

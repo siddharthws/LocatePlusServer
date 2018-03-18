@@ -1,6 +1,6 @@
 package locateplusserver.domains
 
-class PlaceDetails {
+class Place {
 
     // Timestamp
     Date dateCreated
@@ -15,8 +15,13 @@ class PlaceDetails {
     String address
 
     Category category
+    boolean isRemoved = false
 
     double stars
+
+    static belongsTo = [
+           user : User
+    ]
 
     static hasMany = [
             ratings:    Rating,

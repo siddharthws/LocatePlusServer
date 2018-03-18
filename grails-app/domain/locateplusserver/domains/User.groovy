@@ -10,6 +10,8 @@ class User {
     String name
     String imei
 
+    locateplusserver.Role role
+
     static constraints = {
     }
 

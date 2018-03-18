@@ -2,6 +2,10 @@ package locateplusserver.services
 
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
+import locateplusserver.Role
+import locateplusserver.Constants
+import locateplusserver.ApiException
+
 
 @Transactional
 class AuthService {
@@ -10,16 +14,29 @@ class AuthService {
 
     // ----------------------- Public methods ---------------------------//
     // Method to register a user using IMEI and return its object
-    User register(String imei) {
-        // Check if user with this imei already exists
+    User register(String imei ,String user_role ) {
+        // Check if user with this imei already existss
         def user = userService.getByImei(imei)
 
-        // Add new user if not found
-        if (!user) {
-            String name = generateName()
-            user = new User(imei: imei, name: name)
-            user.save(flush: true, failOnError: true)
-        }
+        Role role = user_role as Role
+
+            // Add new admin if not found
+            if (!user) {
+
+                if(role==Role.ADMIN) {
+                    String name = generateName()
+                    user = new User(imei: imei, name: name, role: Role.ADMIN)
+                    user.save(flush: true, failOnError: true)
+                }
+                else
+                {
+                    String name = generateName()
+                    user = new User(imei: imei, name: name, role: Role.USER)
+                    user.save(flush: true, failOnError: true)
+                }
+
+            }
+
 
         user
     }
@@ -29,4 +46,6 @@ class AuthService {
         int randomNum = Math.abs(new Random().nextInt() % 100) + 1
         return "LocPUser" + randomNum
     }
+
+
 }
