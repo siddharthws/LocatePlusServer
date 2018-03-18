@@ -43,7 +43,7 @@ class UserService {
     def getAllPlaces()
     {
         // Get all places List
-        def placeList = Place.getAll()
+        def placeList = Place.findAllByIsRemoved(false)
 
         placeList
     }

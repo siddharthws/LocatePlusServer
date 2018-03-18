@@ -59,7 +59,7 @@ class AdminApiController {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        if(!user.role==ADMIN)
+        if(user.role==Role.USER)
         {
             throw new ApiException("Not Authorized", Constants.HttpCodes.BAD_REQUEST)
         }
@@ -69,7 +69,10 @@ class AdminApiController {
         // get Place by id
         def place = Place.findById(id)
         place.isRemoved = true
-        place.save()
+        place.save(flush: true,failOnError: true)
+
+        def resp = [success: true]
+        render resp as JSON
 
     }
 
