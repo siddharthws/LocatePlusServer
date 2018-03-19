@@ -3,9 +3,6 @@ package locateplusserver.services
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.Role
-import locateplusserver.Constants
-import locateplusserver.ApiException
-
 
 @Transactional
 class AuthService {
