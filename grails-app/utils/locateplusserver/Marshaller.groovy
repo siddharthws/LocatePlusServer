@@ -2,6 +2,7 @@ package locateplusserver
 import grails.converters.JSON
 import locateplusserver.domains.Place
 import locateplusserver.domains.Category
+import locateplusserver.domains.Facility
 
 class Marshaller {
 
@@ -25,6 +26,12 @@ class Marshaller {
         ]
     }
 
+    static def serializeFacility(Facility facility){
+        return [
+                id:            facility.id,
+                name:          facility.name,
+        ]
+    }
 
 
 

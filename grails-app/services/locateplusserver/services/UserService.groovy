@@ -4,6 +4,7 @@ import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.domains.Category
 import locateplusserver.domains.Place
+import locateplusserver.domains.Facility
 import locateplusserver.ApiException
 import locateplusserver.Constants
 
@@ -17,11 +18,6 @@ class UserService {
 
         User user = User.findByImei(imei)
 
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
         user
     }
 
@@ -31,6 +27,14 @@ class UserService {
 
         user
     }
+
+    Facility getFacilityById(def id) {
+
+        Facility facility = Facility.findById(id)
+
+        facility
+    }
+
 
     Category getCategory(String name) {
 
@@ -48,10 +52,25 @@ class UserService {
         placeList
     }
 
+    def getAllCategories(){
+
+        def categoriesList = Category.getAll()
+
+        categoriesList
+    }
+
+    def getAllFacilities(){
+
+        def facilitiesList = Facility.getAll()
+
+        facilitiesList
+    }
+
+
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
         return [
-            user_id:   user.id,
+            app_id:   user.id,
             name: user.name
         ]
     }

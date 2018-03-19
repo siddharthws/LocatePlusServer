@@ -3,7 +3,7 @@ package locateplusserver.api
 import grails.converters.JSON
 import locateplusserver.ApiException
 import locateplusserver.Constants
-import locateplusserver.domains.User
+import locateplusserver.domains.Facility
 import locateplusserver.domains.Category
 import locateplusserver.domains.Place
 import locateplusserver.Role
@@ -73,6 +73,37 @@ class AdminApiController {
 
         def resp = [success: true]
         render resp as JSON
+
+    }
+
+    def addFacilities(){
+
+        //get imei of user
+        def imei = request.getHeader("imei")
+        def user = userService.getByImei(imei)
+        def facilitiesJson = request.JSON
+
+
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        if(user.role==Role.USER)
+        {
+            throw new ApiException("Not Authorized", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def facility = new Facility(
+                name : facilitiesJson.facility
+        )
+
+        facility.save(flush: true,failOnError: true)
+
+        def resp = [success: true]
+
+        render resp as JSON
+
 
     }
 

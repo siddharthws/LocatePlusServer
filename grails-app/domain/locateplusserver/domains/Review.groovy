@@ -6,6 +6,10 @@ class Review {
     Date dateCreated
     Date lastUpdated
 
-    User user
     String review
+
+    static belongsTo = [
+            place : Place,
+            owner : User
+    ]
 }

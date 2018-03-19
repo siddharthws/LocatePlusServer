@@ -18,10 +18,15 @@ class AuthService {
         // Check if user with this imei already existss
         def user = userService.getByImei(imei)
 
+        if(user)
+        {
+            return user
+        }
+
         Role role = user_role as Role
 
             // Add new admin if not found
-            if (!user) {
+
 
                 if(role==Role.ADMIN) {
                     String name = generateName()
@@ -34,8 +39,6 @@ class AuthService {
                     user = new User(imei: imei, name: name, role: Role.USER)
                     user.save(flush: true, failOnError: true)
                 }
-
-            }
 
 
         user

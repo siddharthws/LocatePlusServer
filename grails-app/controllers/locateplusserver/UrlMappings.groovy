@@ -18,10 +18,12 @@ class UrlMappings {
 
         /*---------------------User APIs-----------------------*/
         "/api/user/addPlace"        (controller: "UserApi") { action = [POST : "addPlace"]}
-        "/api/user/getPlaces"        (controller: "UserApi") { action = [GET  : "getPlaces"]}
+        "/api/user/getPlaces"       (controller: "UserApi") { action = [GET  : "getPlaces"]}
+        "/api/user/getFC"           (controller:"UserApi")  {action = [GET  : "getFC"]}
 
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }
         "/api/admin/removePlace"        (controller: "AdminApi") { action = [POST: "removePlace"] }
+        "/api/admin/addFacilities"        (controller: "AdminApi") { action = [POST: "addFacilities"] }
     }
 }

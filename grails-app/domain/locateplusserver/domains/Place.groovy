@@ -15,12 +15,13 @@ class Place {
     String address
 
     Category category
+
     boolean isRemoved = false
 
     double stars
 
     static belongsTo = [
-           user : User
+           owner : User
     ]
 
     static hasMany = [

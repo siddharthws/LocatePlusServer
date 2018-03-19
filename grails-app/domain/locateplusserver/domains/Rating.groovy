@@ -6,6 +6,10 @@ class Rating {
     Date dateCreated
     Date lastUpdated
 
-    User user
     int rating
+
+    static belongsTo = [
+            place : Place,
+            owner : User
+    ]
 }
