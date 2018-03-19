@@ -8,7 +8,4 @@ class Facility {
 
     String name
 
-    static belongsTo = [
-            place : Place
-    ]
 }

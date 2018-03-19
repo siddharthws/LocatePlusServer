@@ -15,6 +15,12 @@ class User {
     static constraints = {
     }
 
+    static hasMany = [
+            places : Place,
+            ratings : Rating,
+            reviews : Review
+    ]
+
     static mapping = {
         table 'lp_user'            // table name 'user' is not allowed
     }
