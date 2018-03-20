@@ -2,6 +2,7 @@ package locateplusserver.api
 
 import grails.converters.JSON
 import locateplusserver.domains.Place
+import locateplusserver.domains.Rating
 import locateplusserver.domains.Category
 import locateplusserver.domains.Facility
 import locateplusserver.domains.User
@@ -126,7 +127,6 @@ class UserApiController {
 
 
     def getCategories() {
-
         def categoriesList = userService.getAllCategories()
 
         def categories = new JSONArray()
@@ -139,7 +139,6 @@ class UserApiController {
     }
 
     def getFacilities() {
-
         def facilitiesList = userService.getAllFacilities()
 
         def facilities = new JSONArray()
@@ -153,5 +152,31 @@ class UserApiController {
         facilities
     }
 
+    def addRatings() {
+        def imei = request.getHeader("imei")
+        def user = userService.getByImei(imei)
 
+        if(!user) {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def rating = request.JSON.rating
+        def placeId = request.JSON.placeId
+
+        def place = userService.getPlaceById(placeId)
+        if(!place) {
+            throw new ApiException("Place does not Exist", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        Rating ratin = new Rating(
+                rating: rating,
+                owner : user
+        )
+
+        place.addToRatings(ratin)
+        place.save(flush: true, failOnError: true)
+
+        def resp = [sucess: true]
+        render resp as JSON
+    }
 }

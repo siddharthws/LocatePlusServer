@@ -3,6 +3,7 @@ package locateplusserver.services
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.domains.Category
+import locateplusserver.domains.Rating
 import locateplusserver.domains.Place
 import locateplusserver.domains.Facility
 import locateplusserver.ApiException
@@ -84,6 +85,29 @@ class UserService {
 
     }
 
+    def getPlaceById(placeId) {
+
+        def place = Place.findById(placeId)
+
+        return place
+    }
+
+    /*def getStars(Place place) {
+
+        def placeId = Place.Id
+
+        def ratings = Rating.findAllById(placeId)
+
+        ratings.each{ rate->
+            def rates = Rating.PlaceId
+
+            if(placeId == rates) {
+                def r1 = null
+                def count = 0
+                r1.push()
+            }
+        }
+    }*/
 
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
