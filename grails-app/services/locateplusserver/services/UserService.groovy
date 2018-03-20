@@ -19,6 +19,11 @@ class UserService {
 
         User user = User.findByImei(imei)
 
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         user
     }
 
@@ -33,6 +38,11 @@ class UserService {
 
         Facility facility = Facility.findById(id)
 
+        if(!user)
+        {
+            throw new ApiException("Invalid Facility", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         facility
     }
 
@@ -43,10 +53,15 @@ class UserService {
         return status
     }
 
+    // method to get category object by ID
+    Category getCategoryById(String id) {
 
-    Category getCategory(String name) {
+        def category = Category.findById(id)
 
-        def category = Category.findByName(name)
+        if(!category)
+        {
+            throw new ApiException("Invalid Category", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         category
     }
@@ -88,6 +103,11 @@ class UserService {
     def getPlaceById(placeId) {
 
         def place = Place.findById(placeId)
+
+        if(!place) {
+            throw new ApiException("Place does not Exist", Constants.HttpCodes.BAD_REQUEST)
+        }
+
 
         return place
     }

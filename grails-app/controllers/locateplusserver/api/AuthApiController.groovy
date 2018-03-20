@@ -16,9 +16,9 @@ class AuthApiController {
         // Get IMEI from request
         def role = request.JSON.role
         String imei = request.getHeader("imei")
-        if (!imei) {
-            throw new ApiException("Invalid registration request", Constants.HttpCodes.BAD_REQUEST)
-        }
+
+        // check if imei is present
+        authService.checkImei(imei)
 
         log.error("Registration request by :"+imei)
         // Register user
