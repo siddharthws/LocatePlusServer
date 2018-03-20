@@ -2,6 +2,7 @@ package locateplusserver.services
 
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
+import locateplusserver.ApiException
 import locateplusserver.Role
 
 @Transactional
@@ -39,6 +40,14 @@ class AuthService {
 
 
         user
+    }
+
+    def checkImei(String imei){
+
+        if (!imei) {
+            throw new ApiException("Invalid registration request", Constants.HttpCodes.BAD_REQUEST)
+        }
+
     }
 
     // ----------------------- Private methods ---------------------------//

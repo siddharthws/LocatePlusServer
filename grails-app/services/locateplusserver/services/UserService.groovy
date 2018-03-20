@@ -19,6 +19,11 @@ class UserService {
 
         User user = User.findByImei(imei)
 
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         user
     }
 
@@ -44,9 +49,9 @@ class UserService {
     }
 
 
-    Category getCategory(String name) {
+    Category getCategoryById(String id) {
 
-        def category = Category.findByName(name)
+        def category = Category.findById(id)
 
         category
     }

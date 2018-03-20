@@ -13,6 +13,7 @@ import org.grails.web.json.JSONArray
 class UserApiController {
     // ----------------------- Dependencies ---------------------------//
     def userService
+    def authService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
@@ -20,12 +21,10 @@ class UserApiController {
 
         def imei = request.getHeader("imei")
 
-        def user = userService.getByImei(imei)
+        // check if imei is present
+        authService.checkImei(imei)
 
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
+        def user = userService.getByImei(imei)
 
         //get data from JSON
         def name = request.JSON.name
@@ -35,7 +34,7 @@ class UserApiController {
         def cat = request.JSON.category
         def facilitiesJson = request.JSON.facilities
 
-        def category = userService.getCategory(cat)
+        def category = userService.getCategoryById(cat)
 
         if(!category)
         {
@@ -81,12 +80,10 @@ class UserApiController {
 
         def imei = request.getHeader("imei")
 
-        User user = userService.getByImei(imei)
+        // check if imei is present
+        authService.checkImei(imei)
 
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
+        User user = userService.getByImei(imei)
 
         def placeList = userService.getAllPlaces()
         def resp = new JSONArray()
@@ -103,14 +100,13 @@ class UserApiController {
         def resp
         def imei = request.getHeader("imei")
 
+        // check if imei is present
+        authService.checkImei(imei)
+
         log.error("FC request by :"+imei)
 
         def user = userService.getByImei(imei)
 
-
-        if (!user) {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
 
             def categories = getCategories()
             def facilities = getFacilities()
@@ -154,11 +150,12 @@ class UserApiController {
 
     def addRatings() {
         def imei = request.getHeader("imei")
+
+        // check if imei is present
+        authService.checkImei(imei)
+
         def user = userService.getByImei(imei)
 
-        if(!user) {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
 
         def rating = request.JSON.rating
         def placeId = request.JSON.placeId
