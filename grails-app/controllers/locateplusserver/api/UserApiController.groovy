@@ -99,20 +99,26 @@ class UserApiController {
     }
     def getFC(){
 
+        def resp
         def imei = request.getHeader("imei")
 
         log.error("FC request by :"+imei)
+
         def user = userService.getByImei(imei)
+
 
         if (!user) {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
+            def categories = getCategories()
+            def facilities = getFacilities()
 
-        def categories = getCategories()
-        def facilities = getFacilities()
+            resp = [categories:categories ,facilities: facilities]
 
-        def resp = [categories:categories ,facilities: facilities]
+        // update status for user
+            user.updateRequired = false
+            user.save(flush: true, failOnError: true)
 
         render resp as JSON
     }

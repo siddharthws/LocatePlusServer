@@ -43,6 +43,9 @@ class AdminApiController {
         // save category in database .
         category.save(flush: true, failOnError: true)
 
+        // update the status for all users
+        userService.updateAllUserStatus()
+
         def resp = [success: true]
         render resp as JSON
     }
@@ -70,6 +73,9 @@ class AdminApiController {
         def place = Place.findById(id)
         place.isRemoved = true
         place.save(flush: true,failOnError: true)
+
+        // update the status for all users
+        userService.updateAllUserStatus()
 
         def resp = [success: true]
         render resp as JSON
@@ -99,6 +105,9 @@ class AdminApiController {
         )
 
         facility.save(flush: true,failOnError: true)
+
+        // update the status for all users
+        userService.updateAllUserStatus()
 
         def resp = [success: true]
 
