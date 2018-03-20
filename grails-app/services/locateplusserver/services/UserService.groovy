@@ -92,6 +92,7 @@ class UserService {
         return place
     }
 
+
     def getStars(Place place) {
 
         def placeId = place.Id
@@ -110,6 +111,7 @@ class UserService {
 
         stars
     }
+
 
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
