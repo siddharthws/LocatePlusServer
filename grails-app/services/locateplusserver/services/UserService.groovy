@@ -92,22 +92,26 @@ class UserService {
         return place
     }
 
-    /*def getStars(Place place) {
 
-        def placeId = Place.Id
+    def getStars(Place place) {
+
+        def placeId = place.Id
 
         def ratings = Rating.findAllById(placeId)
 
-        ratings.each{ rate->
-            def rates = Rating.PlaceId
+        def list = []
 
-            if(placeId == rates) {
-                def r1 = null
-                def count = 0
-                r1.push()
-            }
+        ratings.each{ rate->
+
+                list.add(rate.rating)
+
         }
-    }*/
+
+        def stars = list.sum() / list.size()
+
+        stars
+    }
+
 
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
