@@ -80,33 +80,30 @@ class AdminApiController {
 
     def addFacilities(){
 
-        //get imei of user
+        //get data from request
         def imei = request.getHeader("imei")
         def user = userService.getByImei(imei)
         def facilitiesJson = request.JSON
 
-
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
+        //check if user is admin
         if(user.role==Role.USER)
         {
             throw new ApiException("Not Authorized", Constants.HttpCodes.UNAUTHORIZED)
         }
 
+        // Create new facility object based on facility provided
         def facility = new Facility(
                 name : facilitiesJson.facility
         )
 
+        // save facility
         facility.save(flush: true,failOnError: true)
 
         // update the status for all users
         userService.updateAllUserStatus()
 
+        //return response
         def resp = [success: true]
-
         render resp as JSON
 
 

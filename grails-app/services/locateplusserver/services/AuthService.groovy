@@ -11,6 +11,7 @@ class AuthService {
     def userService
 
     // ----------------------- Public methods ---------------------------//
+
     // Method to register a user using IMEI and return its object
     User register(String imei ,String user_role ) {
         // Check if user with this imei already existss
@@ -41,9 +42,10 @@ class AuthService {
 
         user
     }
-
+    // Method to check if imei is present or not
     def checkImei(String imei){
 
+        // If imei is null throw exception
         if (!imei) {
             throw new ApiException("Invalid registration request", Constants.HttpCodes.BAD_REQUEST)
         }
@@ -51,6 +53,7 @@ class AuthService {
     }
 
     // ----------------------- Private methods ---------------------------//
+    //Method to generate id and username
     private def generateName() {
         int randomNum = Math.abs(new Random().nextInt() % 100) + 1
         return "LocPUser" + randomNum
