@@ -35,6 +35,13 @@ class UserService {
         facility
     }
 
+    def isUpdateRequired(User user){
+
+        def status = user.updateRequired
+
+        return status
+    }
+
 
     Category getCategory(String name) {
 
@@ -66,12 +73,24 @@ class UserService {
         facilitiesList
     }
 
+    def updateAllUserStatus(){
+
+        def userList = User.getAll()
+
+        userList.each {
+            it.updateRequired = true
+            it.save()
+        }
+
+    }
+
 
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
         return [
             app_id:   user.id,
-            name: user.name
+            name: user.name,
+            updateRequired: user.updateRequired
         ]
     }
 

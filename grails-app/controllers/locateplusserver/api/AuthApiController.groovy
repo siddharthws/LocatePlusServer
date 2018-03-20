@@ -20,8 +20,9 @@ class AuthApiController {
             throw new ApiException("Invalid registration request", Constants.HttpCodes.BAD_REQUEST)
         }
 
+        log.error("Registration request by :"+imei)
         // Register user
-        User user = authService.register(imei , role)
+        User user = authService.register(imei, role)
 
         // Return user details
         def resp = userService.toJson(user)
