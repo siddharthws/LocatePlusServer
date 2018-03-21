@@ -13,6 +13,7 @@ class AdminApiController {
 
     // ----------------------- Dependencies ---------------------------//
     def userService
+    def authService
     // ----------------------- Public APIs ---------------------------//
 
     // API to add a category
@@ -20,6 +21,10 @@ class AdminApiController {
 
         //get imei of user
         def imei = request.getHeader("imei")
+
+        // check if imei is present
+        authService.checkImei(imei)
+
         def user = userService.getByImei(imei)
 
         if(!user)
@@ -55,7 +60,18 @@ class AdminApiController {
 
         //get imei of user
         def imei = request.getHeader("imei")
+
+        // check if imei is present
+        authService.checkImei(imei)
+
+        // Get user by imei
         def user = userService.getByImei(imei)
+
+        // Check if user is registered
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
 
 
         if(user.role==Role.USER)
@@ -82,8 +98,19 @@ class AdminApiController {
 
         //get data from request
         def imei = request.getHeader("imei")
-        def user = userService.getByImei(imei)
         def facilitiesJson = request.JSON
+
+        // check if imei is present
+        authService.checkImei(imei)
+
+        // Get user by Imei
+        def user = userService.getByImei(imei)
+
+        // Check if user is registered
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         //check if user is admin
         if(user.role==Role.USER)

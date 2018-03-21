@@ -4,6 +4,7 @@ import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.ApiException
 import locateplusserver.Role
+import locateplusserver.Constants
 
 @Transactional
 class AuthService {
@@ -26,7 +27,6 @@ class AuthService {
 
             // Add new admin if not found
 
-
                 if(role==Role.ADMIN) {
                     String name = generateName()
                     user = new User(imei: imei, name: name, role: Role.ADMIN)
@@ -38,7 +38,6 @@ class AuthService {
                     user = new User(imei: imei, name: name, role: Role.USER)
                     user.save(flush: true, failOnError: true)
                 }
-
 
         user
     }

@@ -19,11 +19,6 @@ class UserService {
 
         User user = User.findByImei(imei)
 
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
         user
     }
 
@@ -36,9 +31,9 @@ class UserService {
 
     Facility getFacilityById(def id) {
 
-        Facility facility = Facility.findById(id)
+        def facility = Facility.findById(id)
 
-        if(!user)
+        if(!facility)
         {
             throw new ApiException("Invalid Facility", Constants.HttpCodes.BAD_REQUEST)
         }
@@ -54,7 +49,7 @@ class UserService {
     }
 
     // method to get category object by ID
-    Category getCategoryById(String id) {
+    Category getCategoryById(def id) {
 
         def category = Category.findById(id)
 

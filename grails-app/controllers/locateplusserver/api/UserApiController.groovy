@@ -27,11 +27,18 @@ class UserApiController {
         // get user object by imei number
         def user = userService.getByImei(imei)
 
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         //get data from JSON
         def name = request.JSON.name
         def lat = request.JSON.latitude
         def lng = request.JSON.longitude
         def address = request.JSON.address
+        address.replaceAll("\\n", "")
+
         def cat = request.JSON.category
         def facilitiesJson = request.JSON.facilities
 
@@ -51,6 +58,7 @@ class UserApiController {
         facilitiesJson.each { facility ->
 
             def id = facility.id
+
             def facilityPresent =  userService.getFacilityById(id)
 
           if(facilityPresent)
@@ -67,6 +75,9 @@ class UserApiController {
         // save place
         user.save(flush: true, failOnError: true)
 
+        // update the status for all users
+        userService.updateAllUserStatus()
+
         // return response
         def resp = [sucess: true]
         render resp as JSON
@@ -80,20 +91,32 @@ class UserApiController {
         // check if imei is present
         authService.checkImei(imei)
 
+        log.error("getplaces request by :"+imei)
+
         // get user object based on imei
         User user = userService.getByImei(imei)
+
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         //get all places list
         def placeList = userService.getAllPlaces()
 
-        def resp = new JSONArray()
+        def places = new JSONArray()
 
         // Create Place Json objects for each place and add to response
         placeList.each { member ->
-            resp.add(locateplusserver.Marshaller.serializePlace(member))
+            places.add(locateplusserver.Marshaller.serializePlace(member))
         }
 
-        // return response
+        def resp = [markers:places]
+
+        // update status for user
+        user.updateRequired = false
+        user.save(flush: true, failOnError: true)
+
         render resp as JSON
     }
 
@@ -110,11 +133,16 @@ class UserApiController {
 
         def user = userService.getByImei(imei)
 
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
 
             def categories = getCategories()
             def facilities = getFacilities()
 
-            resp = [categories:categories ,facilities: facilities]
+            resp = [categories:categories ,facilities: facilities , updateRequired: user.updateRequired]
 
         // update status for user
             user.updateRequired = false
@@ -166,6 +194,11 @@ class UserApiController {
 
         // Get user object by imei
         def user = userService.getByImei(imei)
+
+        if(!user)
+        {
+            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         //get place object by place id
         def place = userService.getPlaceById(placeId)

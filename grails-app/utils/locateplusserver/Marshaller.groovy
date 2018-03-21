@@ -1,21 +1,37 @@
 package locateplusserver
-import grails.converters.JSON
+
 import locateplusserver.domains.Place
 import locateplusserver.domains.Category
 import locateplusserver.domains.Facility
+import org.grails.web.json.JSONArray
 
 class Marshaller {
 
 
+
+    def userService
+
     static def serializePlace(Place place){
+
         def category = serializeCategory(place.category)
+
+        def facilitiesList = place.facilities
+
+        def facilities = new JSONArray()
+
+        facilitiesList.each { member ->
+
+            facilities.add(serializeFacility(member))
+        }
+
         return [
-                id:            place.id,
+                placeId:            place.id,
                 name:          place.name,
                 latitude:      place.latitude,
                 longitude:     place.longitude,
                 category:      category,
-                address:       place.address
+                address:       place.address,
+                facilities :   facilities
         ]
     }
 
