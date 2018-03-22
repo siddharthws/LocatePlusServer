@@ -15,6 +15,7 @@ class UserApiController {
     // ----------------------- Dependencies ---------------------------//
     def userService
     def authService
+    def updateService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
@@ -38,6 +39,8 @@ class UserApiController {
         def lat = request.JSON.latitude
         def lng = request.JSON.longitude
         def address = request.JSON.address
+        def description = request.JSON.description
+
         address.replaceAll("\\n", "")
 
         def cat = request.JSON.category
@@ -52,10 +55,11 @@ class UserApiController {
                 latitude    : lat,
                 longitude   : lng,
                 address     : address,
-                category    : category
+                category    : category,
+                description : description
         )
 
-        // Itereate over facilities and get each facility object
+        // Iterate over facilities and get each facility object
         facilitiesJson.each { facility ->
 
             def id = facility.id
@@ -76,8 +80,8 @@ class UserApiController {
         // save place
         user.save(flush: true, failOnError: true)
 
-        // update the status for all users
-        userService.updateAllUserStatus()
+        //Update place status
+        updateService.updatePlaceStatus()
 
         // return response
         def resp = [sucess: true]
@@ -114,10 +118,6 @@ class UserApiController {
 
         def resp = [markers:places]
 
-        // update status for user
-        user.updateRequired = false
-        user.save(flush: true, failOnError: true)
-
         render resp as JSON
     }
 
@@ -143,10 +143,8 @@ class UserApiController {
             def categories = getCategories()
             def facilities = getFacilities()
 
-            resp = [categories:categories ,facilities: facilities , updateRequired: user.updateRequired]
+            resp = [categories:categories ,facilities: facilities]
 
-        // update status for user
-            user.updateRequired = false
             user.save(flush: true, failOnError: true)
 
         // return response

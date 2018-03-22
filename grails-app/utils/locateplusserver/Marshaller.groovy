@@ -25,13 +25,14 @@ class Marshaller {
         }
 
         return [
-                placeId:            place.id,
+                placeId:       place.id,
                 name:          place.name,
                 latitude:      place.latitude,
                 longitude:     place.longitude,
                 category:      category,
                 address:       place.address,
-                facilities :   facilities
+                facilities :   facilities,
+                description :  place.description
         ]
     }
 
