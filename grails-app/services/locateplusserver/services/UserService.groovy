@@ -121,8 +121,8 @@ class UserService {
         return [
             app_id:   user.id,
             name: user.name,
-            fcUpdate: update[0].fcStatus,
-            PlaceUpdate: update[0].placeStatus
+            serverResponseFC: update[0].fcStatus,
+            serverResponseGP: update[0].placeStatus
 
         ]
     }

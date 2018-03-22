@@ -38,6 +38,8 @@ class UserApiController {
         def lat = request.JSON.latitude
         def lng = request.JSON.longitude
         def address = request.JSON.address
+        def description = request.JSON.description
+
         address.replaceAll("\\n", "")
 
         def cat = request.JSON.category
@@ -52,10 +54,11 @@ class UserApiController {
                 latitude    : lat,
                 longitude   : lng,
                 address     : address,
-                category    : category
+                category    : category,
+                description : description
         )
 
-        // Itereate over facilities and get each facility object
+        // Iterate over facilities and get each facility object
         facilitiesJson.each { facility ->
 
             def id = facility.id

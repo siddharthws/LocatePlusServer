@@ -13,6 +13,7 @@ class Place {
     // User Identifier
     String name
     String address
+    String description
 
     Category category
 
