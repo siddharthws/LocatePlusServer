@@ -21,7 +21,7 @@ class UrlMappings {
         "/api/user/getPlaces"       (controller: "UserApi") { action = [GET  : "getPlaces"]}
         "/api/user/getFC"           (controller:"UserApi")  {action = [GET  : "getFC"]}
         "/api/user/addRatings"      (controller: "UserApi") { action = [POST : "addRatings"]}
-
+        "/api/user/addReviews"      (controller: "UserApi") { action = [POST : "addReviews"]}
 
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }
