@@ -6,12 +6,14 @@ import locateplusserver.domains.Category
 import locateplusserver.domains.Rating
 import locateplusserver.domains.Place
 import locateplusserver.domains.Facility
+import locateplusserver.domains.Update
 import locateplusserver.ApiException
 import locateplusserver.Constants
 
 @Transactional
 class UserService {
     // ----------------------- Dependencies ---------------------------//
+    def updateService
     // ----------------------- Getter methods ---------------------------//
 
     // Method to get user object by IMEI number
@@ -41,12 +43,6 @@ class UserService {
         facility
     }
 
-    def isUpdateRequired(User user){
-
-        def status = user.updateRequired
-
-        return status
-    }
 
     // method to get category object by ID
     Category getCategoryById(def id) {
@@ -84,16 +80,6 @@ class UserService {
         facilitiesList
     }
 
-    def updateAllUserStatus(){
-
-        def userList = User.getAll()
-
-        userList.each {
-            it.updateRequired = true
-            it.save()
-        }
-
-    }
 
     def getPlaceById(placeId) {
 
@@ -130,10 +116,14 @@ class UserService {
 
     // ----------------------- Converter methods ---------------------------//
     def toJson(User user) {
+        def update = Update.getAll()
+
         return [
             app_id:   user.id,
             name: user.name,
-            updateRequired: user.updateRequired
+            fcUpdate: update[0].fcStatus,
+            PlaceUpdate: update[0].placeStatus
+
         ]
     }
 

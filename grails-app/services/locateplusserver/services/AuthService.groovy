@@ -10,6 +10,7 @@ import locateplusserver.Constants
 class AuthService {
     // ----------------------- Dependencies ---------------------------//
     def userService
+    def updateService
 
     // ----------------------- Public methods ---------------------------//
 
@@ -17,6 +18,8 @@ class AuthService {
     User register(String imei ,String user_role ) {
         // Check if user with this imei already existss
         def user = userService.getByImei(imei)
+
+            updateService.intializeUpdates()
 
         if(user)
         {

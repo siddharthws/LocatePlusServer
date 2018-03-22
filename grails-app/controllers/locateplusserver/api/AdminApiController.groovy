@@ -14,6 +14,7 @@ class AdminApiController {
     // ----------------------- Dependencies ---------------------------//
     def userService
     def authService
+    def updateService
     // ----------------------- Public APIs ---------------------------//
 
     // API to add a category
@@ -48,8 +49,8 @@ class AdminApiController {
         // save category in database .
         category.save(flush: true, failOnError: true)
 
-        // update the status for all users
-        userService.updateAllUserStatus()
+        // update the FC status for all users
+        updateService.updateFcStatus()
 
         def resp = [success: true]
         render resp as JSON
@@ -86,8 +87,8 @@ class AdminApiController {
         place.isRemoved = true
         place.save(flush: true,failOnError: true)
 
-        // update the status for all users
-        userService.updateAllUserStatus()
+        // update the Place status for all users
+        updateService.updatePlaceStatus()
 
         def resp = [success: true]
         render resp as JSON
@@ -126,8 +127,8 @@ class AdminApiController {
         // save facility
         facility.save(flush: true,failOnError: true)
 
-        // update the status for all users
-        userService.updateAllUserStatus()
+        // update the Place status for all users
+        updateService.updateFcStatus()
 
         //return response
         def resp = [success: true]
