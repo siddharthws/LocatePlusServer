@@ -5,6 +5,7 @@ import locateplusserver.domains.Place
 import locateplusserver.domains.Rating
 import locateplusserver.domains.Category
 import locateplusserver.domains.Facility
+import locateplusserver.domains.Review
 import locateplusserver.domains.User
 import locateplusserver.ApiException
 import locateplusserver.Constants
@@ -195,8 +196,7 @@ class UserApiController {
         // Get user object by imei
         def user = userService.getByImei(imei)
 
-        if(!user)
-        {
+        if(!user) {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
@@ -204,18 +204,49 @@ class UserApiController {
         def place = userService.getPlaceById(placeId)
 
         //Create new rating object with user as its owner
-        Rating ratin = new Rating(
+        Rating ratings = new Rating(
                 rating: rating,
                 owner : user
         )
 
         // associate rating to a place
-        place.addToRatings(ratin)
+        place.addToRatings(ratings)
 
         //save place object
         place.save(flush: true, failOnError: true)
 
         // return response
+        def resp = [sucess: true]
+        render resp as JSON
+    }
+
+    def addReviews() {
+        //get data from request
+        def review = request.JSON.review
+        def placeId = request.JSON.placeId
+        def imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def place = userService.getPlaceById(placeId)
+
+        Review reviews = new Review(
+                review: review,
+                owner: user
+        )
+
+        // associate review to a place
+        place.addToReviews(reviews)
+
+        //save place object
+        place.save(flush: true, failOnError: true)
+
+        //return response
         def resp = [sucess: true]
         render resp as JSON
     }
