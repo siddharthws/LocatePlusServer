@@ -19,7 +19,11 @@ class Place {
 
     boolean isRemoved = false
 
-    double stars
+    // Place details update fields
+    double reviewStatus = 0
+    double photoStatus = 0
+
+    double stars = 0
 
     static belongsTo = [
            owner : User
@@ -32,6 +36,7 @@ class Place {
     ]
 
     static constraints = {
+            description nullable: true
     }
 
     static mapping = {
