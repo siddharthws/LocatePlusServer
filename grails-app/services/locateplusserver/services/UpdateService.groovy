@@ -2,6 +2,7 @@ package locateplusserver.services
 
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.Update
+import locateplusserver.domains.Place
 import locateplusserver.ApiException
 import locateplusserver.Role
 import locateplusserver.Constants
@@ -44,16 +45,26 @@ class UpdateService {
 
             // save place
             update.save(flush: true, failOnError: true)
-        }
+    }
 
 
     }
 
-    def getUpdateById(def id){
+    def updateReviewStatus(def place){
 
-        def update = Update.findAllById(id)
+        place.reviewStatus += 1
 
-        return  update
+        // save place
+        place.save(flush: true, failOnError: true)
+
+    }
+
+    def updatePhotoStatus(def place){
+
+        place.placeStatus += 1
+
+        // save place
+        place.save(flush: true, failOnError: true)
 
     }
 

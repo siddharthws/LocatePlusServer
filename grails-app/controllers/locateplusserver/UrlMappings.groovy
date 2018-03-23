@@ -17,11 +17,17 @@ class UrlMappings {
         "404"(controller: "Utils", action: "handle404")
 
         /*---------------------User APIs-----------------------*/
+        "/api/user/addReviews"      (controller: "UserApi") { action = [POST : "addReviews"]}
+        "/api/user/getReviews"      (controller: "UserApi") { action = [POST : "getReviews"]}
         "/api/user/addPlace"        (controller: "UserApi") { action = [POST : "addPlace"]}
         "/api/user/getPlaces"       (controller: "UserApi") { action = [GET  : "getPlaces"]}
         "/api/user/getFC"           (controller:"UserApi")  {action = [GET  : "getFC"]}
         "/api/user/addRatings"      (controller: "UserApi") { action = [POST : "addRatings"]}
-        "/api/user/addReviews"      (controller: "UserApi") { action = [POST : "addReviews"]}
+
+        "/api/user/getrpStatus"      (controller: "UserApi") { action = [POST : "getrpStatus"]}
+
+        "/api/user/upload"      (controller: "PhotoApi") { action = [POST : "upload"]}
+        "/api/user/getPhoto"      (controller: "PhotoApi") { action = [GET : "getPhoto"]}
 
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }

@@ -4,6 +4,7 @@ import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.domains.Category
 import locateplusserver.domains.Rating
+import locateplusserver.domains.Review
 import locateplusserver.domains.Place
 import locateplusserver.domains.Facility
 import locateplusserver.domains.Update
@@ -13,7 +14,7 @@ import locateplusserver.Constants
 @Transactional
 class UserService {
     // ----------------------- Dependencies ---------------------------//
-    def updateService
+
     // ----------------------- Getter methods ---------------------------//
 
     // Method to get user object by IMEI number
@@ -81,14 +82,13 @@ class UserService {
     }
 
 
-    def getPlaceById(placeId) {
+     def getPlaceById(placeId) {
 
         def place = Place.findById(placeId)
 
         if(!place) {
             throw new ApiException("Place does not Exist", Constants.HttpCodes.BAD_REQUEST)
         }
-
 
         return place
     }
@@ -111,6 +111,16 @@ class UserService {
         def stars = list.sum() / list.size()
 
         stars
+    }
+
+    def getReviewsById(def id){
+
+        def place = getPlaceById(id)
+
+        def reviewsList = Review.findAllByPlace(place)
+
+        reviewsList
+
     }
 
 
