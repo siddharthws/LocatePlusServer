@@ -33,11 +33,6 @@ class AdminApiController {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        if(user.role==Role.USER)
-        {
-            throw new ApiException("Not Authorized", Constants.HttpCodes.UNAUTHORIZED)
-        }
-
         def categoriesJson = request.JSON
 
 
@@ -72,12 +67,6 @@ class AdminApiController {
         if(!user)
         {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
-
-        if(user.role==Role.USER)
-        {
-            throw new ApiException("Not Authorized", Constants.HttpCodes.UNAUTHORIZED)
         }
 
         def id = request.JSON.placeId

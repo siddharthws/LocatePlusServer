@@ -26,21 +26,9 @@ class AuthService {
             return user
         }
 
-        Role role = user_role as Role
-
-            // Add new admin if not found
-
-                if(role==Role.ADMIN) {
-                    String name = generateName()
-                    user = new User(imei: imei, name: name, role: Role.ADMIN)
-                    user.save(flush: true, failOnError: true)
-                }
-                else
-                {
-                    String name = generateName()
-                    user = new User(imei: imei, name: name, role: Role.USER)
-                    user.save(flush: true, failOnError: true)
-                }
+        String name = generateName()
+        user = new User(imei: imei, name: name)
+        user.save(flush: true, failOnError: true)
 
         user
     }
