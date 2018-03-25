@@ -3,6 +3,7 @@ package locateplusserver
 import locateplusserver.domains.Place
 import locateplusserver.domains.Category
 import locateplusserver.domains.Facility
+import locateplusserver.domains.Photo
 import org.grails.web.json.JSONArray
 
 class Marshaller {
@@ -24,6 +25,15 @@ class Marshaller {
             facilities.add(serializeFacility(member))
         }
 
+//        def photoList = place.photos
+//
+//        def photos = new JSONArray()
+//
+//        photoList.each { member ->
+//
+//            photos.add(serializePhoto(member))
+//        }
+
         return [
                 placeId:       place.id,
                 name:          place.name,
@@ -32,7 +42,9 @@ class Marshaller {
                 category:      category,
                 address:       place.address,
                 facilities :   facilities,
-                description :  place.description
+                description :  place.description,
+               // photos :       photos,
+                stars :        place.stars
         ]
     }
 
@@ -50,6 +62,12 @@ class Marshaller {
         ]
     }
 
+    static def serializePhoto(Photo photo){
+        return [
+                id:            photo.id,
+                name:          photo.uuid,
+        ]
+    }
 
 
 }

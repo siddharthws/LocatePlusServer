@@ -32,7 +32,8 @@ class Place {
     static hasMany = [
             ratings:    Rating,
             reviews:    Review,
-            facilities: Facility
+            facilities: Facility,
+            photos : Photo
     ]
 
     static constraints = {

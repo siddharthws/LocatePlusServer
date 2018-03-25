@@ -5,5 +5,5 @@ databaseChangeLog = {
     include file: 'update-app-db.groovy'
     include file: 'place-description-db.groovy'
     include file: 'place-description-null-db.groovy'
-    include file: 'place-update-photo-db.groovy'
+    include file: 'add-multiple-photos-db.groovy'
 }
