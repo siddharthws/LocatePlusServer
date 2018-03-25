@@ -3,8 +3,6 @@ package locateplusserver.api
 import grails.converters.JSON
 import locateplusserver.domains.Place
 import locateplusserver.domains.Rating
-import locateplusserver.domains.Category
-import locateplusserver.domains.Facility
 import locateplusserver.domains.Review
 import locateplusserver.domains.Place
 import locateplusserver.domains.User
@@ -17,6 +15,7 @@ class UserApiController {
     def userService
     def authService
     def updateService
+    def photoService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
@@ -41,6 +40,7 @@ class UserApiController {
         def lng = request.JSON.longitude
         def address = request.JSON.address
         def description = request.JSON.description
+        def photosArray = request.JSON.photouuid
 
         address.replaceAll("\\n", "")
 
@@ -68,13 +68,29 @@ class UserApiController {
             def facilityPresent =  userService.getFacilityById(id)
 
           if(facilityPresent)
-             {
-                 // Add facility to the place
-                 place.addToFacilities(facilityPresent)
-             }
+            {
+                // Add facility to the place
+                place.addToFacilities(facilityPresent)
+            }
 
 
         }
+        log.error(photosArray)
+
+        // Iterate over Photos and get each photo object
+        photosArray.each { member ->
+
+
+            //get photo by uuid
+            def photo = photoService.getPhoto(member)
+
+            if(photo)
+            {
+                place.addToPhotos(photo)
+            }
+
+        }
+
         // set owner as user
         user.addToPlaces(place)
 
