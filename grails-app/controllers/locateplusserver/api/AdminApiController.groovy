@@ -6,7 +6,6 @@ import locateplusserver.Constants
 import locateplusserver.domains.Facility
 import locateplusserver.domains.Category
 import locateplusserver.domains.Place
-import locateplusserver.Role
 
 class AdminApiController {
 
@@ -100,12 +99,6 @@ class AdminApiController {
         if(!user)
         {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
-        //check if user is admin
-        if(user.role==Role.USER)
-        {
-            throw new ApiException("Not Authorized", Constants.HttpCodes.UNAUTHORIZED)
         }
 
         // Create new facility object based on facility provided

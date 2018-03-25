@@ -1,8 +1,6 @@
 package locateplusserver.api
 
 import grails.converters.JSON
-import locateplusserver.ApiException
-import locateplusserver.Constants
 import locateplusserver.domains.User
 
 class AuthApiController {
@@ -14,7 +12,6 @@ class AuthApiController {
     // API to register a user and return user details
     def register() {
         // Get IMEI from request
-        def role = request.JSON.role
         String imei = request.getHeader("imei")
 
         // check if imei is present
@@ -22,7 +19,7 @@ class AuthApiController {
 
         log.error("Registration request by :"+imei)
         // Register user
-        User user = authService.register(imei, role)
+        User user = authService.register(imei)
 
         // Return user details
         def resp = userService.toJson(user)

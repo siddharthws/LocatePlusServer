@@ -2,7 +2,6 @@ package locateplusserver.api
 import grails.converters.JSON
 import org.springframework.web.multipart.MultipartFile
 import locateplusserver.ApiException
-import locateplusserver.domains.Photo
 
 
 class PhotoApiController {

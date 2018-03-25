@@ -15,7 +15,7 @@ class AuthService {
     // ----------------------- Public methods ---------------------------//
 
     // Method to register a user using IMEI and return its object
-    User register(String imei ,String user_role ) {
+    User register(String imei) {
         // Check if user with this imei already existss
         def user = userService.getByImei(imei)
 

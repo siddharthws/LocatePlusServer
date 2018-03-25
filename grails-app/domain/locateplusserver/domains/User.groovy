@@ -12,8 +12,6 @@ class User {
 
     boolean updateRequired = true
 
-    locateplusserver.Role role
-
     static constraints = {
     }
 
