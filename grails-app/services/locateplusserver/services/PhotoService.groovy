@@ -1,6 +1,7 @@
 package locateplusserver.services
 
 import grails.gorm.transactions.Transactional
+import locateplusserver.domains.Place
 import locateplusserver.domains.Photo
 import locateplusserver.ApiException
 import locateplusserver.Role
@@ -52,6 +53,14 @@ class PhotoService {
 
     }
 
+    def getPhotoByPlace(def place)
+    {
+
+       def photosList = place.photos
+
+        photosList
+
+    }
 
 
     // ----------------------- Private methods ---------------------------//
