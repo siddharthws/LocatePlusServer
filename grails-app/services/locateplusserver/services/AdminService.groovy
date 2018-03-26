@@ -3,6 +3,7 @@ package locateplusserver.services
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.Admin
 import locateplusserver.ApiException
+import locateplusserver.Constants
 
 @Transactional
 class AdminService {
@@ -13,6 +14,7 @@ class AdminService {
 
     // Method to get admin object by ID
     Admin getByName(def name) {
+
         Admin admin = Admin.findByUserName(name)
 
         admin

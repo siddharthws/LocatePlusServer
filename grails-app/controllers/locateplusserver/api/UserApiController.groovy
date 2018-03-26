@@ -74,7 +74,6 @@ class UserApiController {
 
 
         }
-        log.error(photosArray)
 
         // Iterate over Photos and get each photo object
         photosArray.each { member ->
@@ -108,20 +107,6 @@ class UserApiController {
     def getPlaces() {
 
         log.error("get places request")
-     /*   def imei = request.getHeader("imei")
-
-        // check if imei is present
-        authService.checkImei(imei)
-
-        log.error("getplaces request by :"+imei)
-
-        // get user object based on imei
-        User user = userService.getByImei(imei)
-
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }*/
 
         //get all places list
         def placeList = userService.getAllPlaces()
@@ -142,25 +127,11 @@ class UserApiController {
     def getFC(){
 
         def resp
-        /*def imei = request.getHeader("imei")
 
-        // check if imei is present
-        authService.checkImei(imei)
+        def categories = getCategories()
+        def facilities = getFacilities()
 
-        log.error("FC request by :"+imei)
-
-        def user = userService.getByImei(imei)
-
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-*/
-
-            def categories = getCategories()
-            def facilities = getFacilities()
-
-            resp = [categories:categories ,facilities: facilities]
+        resp = [categories:categories ,facilities: facilities]
 
 
         // return response
@@ -271,17 +242,7 @@ class UserApiController {
     def getReviews() {
         //get data from request
         def placeId = request.JSON.placeId
-        /*def imei = request.getHeader("imei")
 
-        // get user object by imei
-        def user = userService.getByImei(imei)
-
-        log.error("get Reviews request by :"+imei)
-
-        if(!user) {
-            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-*/
         def reviewList = userService.getReviewsById(placeId)
 
         def reviews = new JSONArray()
@@ -302,17 +263,6 @@ class UserApiController {
     def getrpStatus(){
         //get data from request
         def placeId = request.JSON.placeId
-        def imei = request.getHeader("imei")
-
-        log.error("getrpStatus request by :"+imei)
-
-        // get user object by imei
-        def user = userService.getByImei(imei)
-
-        if(!user) {
-            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
         // get place by ID
         def place = userService.getPlaceById(placeId)
 
@@ -323,7 +273,6 @@ class UserApiController {
 
         //save place object
         place.save(flush: true, failOnError: true)
-
 
         def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus]
 

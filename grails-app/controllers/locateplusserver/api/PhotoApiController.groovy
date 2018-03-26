@@ -14,19 +14,6 @@ class PhotoApiController {
     // API to register a user and return user details
     def upload() {
 
-        def imei = request.getHeader("imei")
-
-        // check if imei is present
-        authService.checkImei(imei)
-
-        // get user object by imei number
-        def user = userService.getByImei(imei)
-
-        if(!user)
-        {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
         // Get Multipart file from parameter name
         List<MultipartFile> files = request.multiFileMap.uploadImage
 
@@ -67,10 +54,32 @@ class PhotoApiController {
 
     def getPhoto(){
 
-        // Get file
-        def fileStream = new File("F:/temp/"+uuid+".png").newDataInputStream()
+        def placeId = request.JSON.placeId
 
-        fileStream
+        // get place by ID
+        def place = userService.getPlaceById(placeId)
+
+        def photoList = photoService.getPhotoByPlace(place)
+
+        def uuid = 0
+        photoList.each{member->
+
+            uuid = member.uuid.toString()
+
+            def file= new File("F:/temp/"+uuid+".png")
+
+            def is = file.newInputStream()
+
+            render file:is, contentType: 'image/png'
+
+        }
+
+
+        //render(file: new File("F:/temp/4e5f988a-8cac-49fe-bbd1-694fea87f234.png"), fileName: "4e5f988a-8cac-49fe-bbd1-694fea87f234.png")
+        // Return photo object
+       // render(file: new File("F:/temp/", name + ".png"), fileName: name+".png")
+
+
 
     }
 

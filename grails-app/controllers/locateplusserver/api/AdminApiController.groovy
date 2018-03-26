@@ -36,7 +36,6 @@ class AdminApiController {
         def categoriesJson = request.JSON
 
 
-
            def category = new Category(
                     name : categoriesJson.category
             )

@@ -137,3 +137,8 @@ grails:
   upload:
     maxFileSize: 26214400
     maxRequestSize: 26214400
+
+---
+grails:
+ cors:
+   enabled: true
