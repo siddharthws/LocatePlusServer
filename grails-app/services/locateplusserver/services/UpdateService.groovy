@@ -39,8 +39,7 @@ class UpdateService {
 
         def update = Update.getAll()
 
-        if(!update)
-        {
+        if(!update){
              update = new Update(placeStatus:0, fcStatus:0)
 
             // save place
