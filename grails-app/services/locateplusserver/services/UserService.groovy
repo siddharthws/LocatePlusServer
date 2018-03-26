@@ -125,7 +125,7 @@ class UserService {
 
 
     // ----------------------- Converter methods ---------------------------//
-    def toJson(User user) {
+    def toJsonUser(User user) {
         def update = Update.getAll()
 
         return [
@@ -136,8 +136,6 @@ class UserService {
 
         ]
     }
-
-
 
     // ----------------------- Public methods ---------------------------//
     // ----------------------- Private methods ---------------------------//

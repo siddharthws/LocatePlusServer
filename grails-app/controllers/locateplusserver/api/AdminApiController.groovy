@@ -14,22 +14,23 @@ class AdminApiController {
     def userService
     def authService
     def updateService
+    def adminService
     // ----------------------- Public APIs ---------------------------//
 
     // API to add a category
     def addCategory() {
 
-        //get imei of user
-        def imei = request.getHeader("imei")
+        //get username of user
+        def username = request.getHeader("username")
 
-        // check if imei is present
-        authService.checkImei(imei)
+        // check if username field is present
+        adminService.checkUsername(username)
 
-        def user = userService.getByImei(imei)
+        def admin = adminService.getByName(username)
 
-        if(!user)
+        if(!admin)
         {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
         def categoriesJson = request.JSON
@@ -53,20 +54,18 @@ class AdminApiController {
     // API to remove a place
     def removePlace() {
 
-        //get imei of user
-        def imei = request.getHeader("imei")
+       /* //get username of user
+        def username = request.getHeader("username")
 
-        // check if imei is present
-        authService.checkImei(imei)
+        // check if username field is present
+        authService.checkUsername(username)
 
-        // Get user by imei
-        def user = userService.getByImei(imei)
+        def admin = adminService.getByName(username)
 
-        // Check if user is registered
-        if(!user)
+        if(!admin)
         {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
+            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
+        }*/
 
         def id = request.JSON.placeId
 
@@ -85,20 +84,17 @@ class AdminApiController {
 
     def addFacilities(){
 
-        //get data from request
-        def imei = request.getHeader("imei")
-        def facilitiesJson = request.JSON
+        //get username of user
+        def username = request.getHeader("username")
 
-        // check if imei is present
-        authService.checkImei(imei)
+        // check if username field is present
+        authService.checkUsername(username)
 
-        // Get user by Imei
-        def user = userService.getByImei(imei)
+        def admin = adminService.getByName(username)
 
-        // Check if user is registered
-        if(!user)
+        if(!admin)
         {
-            throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
+            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
         // Create new facility object based on facility provided

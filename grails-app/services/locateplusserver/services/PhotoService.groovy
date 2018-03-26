@@ -35,7 +35,7 @@ class PhotoService {
             throw new ApiException("Photo not found", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        // Return photo object
+
         photo
 
     }

@@ -5,7 +5,6 @@ import locateplusserver.domains.Place
 import locateplusserver.domains.Rating
 import locateplusserver.domains.Review
 import locateplusserver.domains.Place
-import locateplusserver.domains.User
 import locateplusserver.ApiException
 import locateplusserver.Constants
 import org.grails.web.json.JSONArray
@@ -108,7 +107,8 @@ class UserApiController {
     // Return all Places that are not removed
     def getPlaces() {
 
-        def imei = request.getHeader("imei")
+        log.error("get places request")
+     /*   def imei = request.getHeader("imei")
 
         // check if imei is present
         authService.checkImei(imei)
@@ -121,7 +121,7 @@ class UserApiController {
         if(!user)
         {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
+        }*/
 
         //get all places list
         def placeList = userService.getAllPlaces()
@@ -142,7 +142,7 @@ class UserApiController {
     def getFC(){
 
         def resp
-        def imei = request.getHeader("imei")
+        /*def imei = request.getHeader("imei")
 
         // check if imei is present
         authService.checkImei(imei)
@@ -155,14 +155,13 @@ class UserApiController {
         {
             throw new ApiException("Not Registered", Constants.HttpCodes.BAD_REQUEST)
         }
-
+*/
 
             def categories = getCategories()
             def facilities = getFacilities()
 
             resp = [categories:categories ,facilities: facilities]
 
-            user.save(flush: true, failOnError: true)
 
         // return response
         render resp as JSON
@@ -272,7 +271,7 @@ class UserApiController {
     def getReviews() {
         //get data from request
         def placeId = request.JSON.placeId
-        def imei = request.getHeader("imei")
+        /*def imei = request.getHeader("imei")
 
         // get user object by imei
         def user = userService.getByImei(imei)
@@ -282,7 +281,7 @@ class UserApiController {
         if(!user) {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
-
+*/
         def reviewList = userService.getReviewsById(placeId)
 
         def reviews = new JSONArray()
@@ -292,7 +291,7 @@ class UserApiController {
             reviews.add(member.review)
         }
 
-
+        // Add Reviews to response
         def resp = [placeId : placeId , reviews :reviews]
 
         //return response
