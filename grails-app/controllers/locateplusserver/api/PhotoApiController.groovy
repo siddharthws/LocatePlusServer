@@ -9,6 +9,7 @@ class PhotoApiController {
     def authService
     def userService
     def photoService
+    def ratingService
 
     // ----------------------- Public APIs ---------------------------//
     // API to register a user and return user details
@@ -54,6 +55,7 @@ class PhotoApiController {
 
     def getPhoto(){
 
+
         def placeId = request.JSON.placeId
 
         // get place by ID
@@ -62,17 +64,43 @@ class PhotoApiController {
         def photoList = photoService.getPhotoByPlace(place)
 
         def uuid = 0
+
+        List<MultipartFile> files = new ArrayList<MultipartFile>()
+
         photoList.each{member->
 
             uuid = member.uuid.toString()
 
             def file= new File("F:/temp/"+uuid+".png")
 
+           // files.add(file)
+
             def is = file.newInputStream()
 
-            render file:is, contentType: 'image/png'
+            //  render file:is, contentType: 'image/png'
+
+            render(file:file ,contentType: 'image/png')
 
         }
+
+
+        log.error("j=hello")
+
+
+
+
+
+
+
+
+
+
+
+       // MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
+
+        // Adding Multi-part file parameter "imageFile"
+
+       // multiPartContent.addPart("imageFile", new InputStreamBody(multipartImageFile.inputStream, multipartImageFile.contentType, multipartImageFile.originalFilename))
 
 
         //render(file: new File("F:/temp/4e5f988a-8cac-49fe-bbd1-694fea87f234.png"), fileName: "4e5f988a-8cac-49fe-bbd1-694fea87f234.png")

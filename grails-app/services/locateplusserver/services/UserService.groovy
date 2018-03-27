@@ -113,7 +113,7 @@ class UserService {
         stars
     }
 
-    def getReviewsById(def id){
+    def getReviewsByPlaceId(def id){
 
         def place = getPlaceById(id)
 

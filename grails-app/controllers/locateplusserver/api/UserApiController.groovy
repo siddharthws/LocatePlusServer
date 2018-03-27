@@ -15,11 +15,13 @@ class UserApiController {
     def authService
     def updateService
     def photoService
+    def ratingService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
     def addPlace() {
 
+        log.error("Add places ")
         def imei = request.getHeader("imei")
 
         // check if imei is present
@@ -99,7 +101,8 @@ class UserApiController {
         updateService.updatePlaceStatus()
 
         // return response
-        def resp = [sucess: true]
+        def resp = [success: true]
+
         render resp as JSON
     }
 
@@ -126,6 +129,7 @@ class UserApiController {
     // Return Facilities and categories at app startup
     def getFC(){
 
+        log.error("get FC ")
         def resp
 
         def categories = getCategories()
@@ -170,6 +174,8 @@ class UserApiController {
     }
 
     def addRatings() {
+
+        log.error("add Rating ")
         // get data from request
         def rating = request.JSON.rating
         def placeId = request.JSON.placeId
@@ -206,6 +212,8 @@ class UserApiController {
     }
 
     def addReviews() {
+
+        log.error("add Review ")
         //get data from request
         def review = request.JSON.review
         def placeId = request.JSON.placeId
@@ -240,10 +248,12 @@ class UserApiController {
     }
 
     def getReviews() {
+
+        log.error("get Review ")
         //get data from request
         def placeId = request.JSON.placeId
 
-        def reviewList = userService.getReviewsById(placeId)
+        def reviewList = userService.getReviewsByPlaceId(placeId)
 
         def reviews = new JSONArray()
 
@@ -261,6 +271,8 @@ class UserApiController {
     }
 
     def getrpStatus(){
+
+        log.error("get grp ")
         //get data from request
         def placeId = request.JSON.placeId
         // get place by ID
@@ -271,10 +283,14 @@ class UserApiController {
 
         def photoStatus = place.photoStatus
 
+        def rating = ratingService.getOverallPlaceRating(place)
+
+        def noOfUsers = ratingService.getTotalUsersForPlace(place)
+
         //save place object
         place.save(flush: true, failOnError: true)
 
-        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus]
+        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus, rating:rating , noOfUsers : noOfUsers]
 
         //return response
         render resp as JSON

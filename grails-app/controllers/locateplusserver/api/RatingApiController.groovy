@@ -2,7 +2,8 @@ package locateplusserver.api
 
 import grails.converters.JSON
 import locateplusserver.domains.User
-import locateplusserver.domains.Admin
+import locateplusserver.domains.Place
+import locateplusserver.Constants
 import locateplusserver.domains.Rating
 import locateplusserver.ApiException
 
@@ -11,6 +12,7 @@ class RatingApiController {
     def authService
     def userService
     def adminService
+    def ratingService
 
     // ----------------------- Public APIs ---------------------------//
 
@@ -36,25 +38,34 @@ class RatingApiController {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        /// update RAATINGggggggggggggggggggggggggggggggggggggggggggssssssssssss
+        /// update RAATINGsssssssssss
         def place = userService.getPlaceById(placeId)
 
-        Rating rating = new Rating(
-                overAllRating: overAllRating,
-                owner: user
-        )
+        def oldRating = ratingService.getRatingByUserAndPlace(user,place)
 
+        if(!oldRating){
 
-        // associate review to a place
-        place.addToRatings(rating)
+            Rating rating = new Rating(
+                    overAllRating: overAllRating,
+                    owner: user
+            )
 
-        //save place object
-        place.save(flush: true, failOnError: true)
+            // associate rating to a place
+            place.addToRatings(rating)
+
+            //save place object
+            place.save(flush: true, failOnError: true)
+        }
+
+        oldRating.overAllRating = overAllRating.toInteger()
+
+        oldRating.save(flush: true, failOnError: true)
 
         def resp = [success: true]
         render resp as JSON
 
     }
+
 
 
 
