@@ -22,6 +22,7 @@ class Place {
     // Place details update fields
     double reviewStatus = 0
     double photoStatus = 0
+    double ratingStatus = 0
 
     double stars = 0
 

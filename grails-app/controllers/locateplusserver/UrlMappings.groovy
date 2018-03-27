@@ -36,6 +36,6 @@ class UrlMappings {
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }
         "/api/admin/removePlace"        (controller: "AdminApi") { action = [POST: "removePlace"] }
-        "/api/admin/addFacilities"      (controller: "AdminApi") { action = [POST: "addFacilities"] }
+        "/api/admin/addFacility"      (controller: "AdminApi") { action = [POST: "addFacility"] }
     }
 }

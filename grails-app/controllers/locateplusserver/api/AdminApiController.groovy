@@ -20,24 +20,11 @@ class AdminApiController {
     // API to add a category
     def addCategory() {
 
-        //get username of user
-        def username = request.getHeader("username")
-
-        // check if username field is present
-        adminService.checkUsername(username)
-
-        def admin = adminService.getByName(username)
-
-        if(!admin)
-        {
-            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
-        def categoriesJson = request.JSON
+        def newCategory = request.JSON.category
 
 
            def category = new Category(
-                    name : categoriesJson.category
+                    name : newCategory
             )
 
         // save category in database .
@@ -52,19 +39,6 @@ class AdminApiController {
 
     // API to remove a place
     def removePlace() {
-
-       /* //get username of user
-        def username = request.getHeader("username")
-
-        // check if username field is present
-        authService.checkUsername(username)
-
-        def admin = adminService.getByName(username)
-
-        if(!admin)
-        {
-            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }*/
 
         def id = request.JSON.placeId
 
@@ -81,24 +55,14 @@ class AdminApiController {
 
     }
 
-    def addFacilities(){
+    def addFacility(){
 
-        //get username of user
-        def username = request.getHeader("username")
+        def newFacility = request.JSON.facility
 
-        // check if username field is present
-        authService.checkUsername(username)
-
-        def admin = adminService.getByName(username)
-
-        if(!admin)
-        {
-            throw new ApiException("Admin Not Registered", Constants.HttpCodes.BAD_REQUEST)
-        }
-
+        log.error("hello"+newFacility)
         // Create new facility object based on facility provided
         def facility = new Facility(
-                name : facilitiesJson.facility
+                name : newFacility
         )
 
         // save facility
