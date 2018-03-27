@@ -57,6 +57,7 @@ class RatingApiController {
             place.save(flush: true, failOnError: true)
         }
 
+
         oldRating.overAllRating = overAllRating.toInteger()
 
         oldRating.save(flush: true, failOnError: true)

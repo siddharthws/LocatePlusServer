@@ -2,6 +2,8 @@ package locateplusserver.api
 import grails.converters.JSON
 import org.springframework.web.multipart.MultipartFile
 import locateplusserver.ApiException
+import org.grails.web.json.JSONArray
+import grails.io.IOUtils
 
 
 class PhotoApiController {
@@ -65,6 +67,8 @@ class PhotoApiController {
 
         def uuid = 0
 
+        def resp = new JSONArray()
+
         List<MultipartFile> files = new ArrayList<MultipartFile>()
 
         photoList.each{member->
@@ -73,20 +77,14 @@ class PhotoApiController {
 
             def file= new File("F:/temp/"+uuid+".png")
 
-           // files.add(file)
+            byte[] ba = IOUtils.copyToByteArray(file)
 
-            def is = file.newInputStream()
-
-            //  render file:is, contentType: 'image/png'
-
-            render(file:file ,contentType: 'image/png')
+            resp.add(ba)
 
         }
 
-
-        log.error("j=hello")
-
-
+        // Send bytes in response
+        render resp as JSON
 
 
 

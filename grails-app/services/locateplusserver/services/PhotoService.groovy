@@ -62,6 +62,12 @@ class PhotoService {
 
     }
 
+    def updatePhotoInappropriateStatus(def photo) {
+
+
+
+    }
+
 
     // ----------------------- Private methods ---------------------------//
     //Method to generate id and username

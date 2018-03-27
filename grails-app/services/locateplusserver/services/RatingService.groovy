@@ -34,7 +34,7 @@ class RatingService {
     def getOverallPlaceRating(Place place)
     {
 
-        def ratingList = getRatingByPlace(place)
+       /* def ratingList = getRatingByPlace(place)
 
         def noOfUsers = ratingList.size
         def ratings
@@ -50,9 +50,7 @@ class RatingService {
         if(!rating==0 && !noOfUsers==0)
         {
              ratings = rating/noOfUsers
-        }
-
-        ratings = 4
+        }*/
 
         ratings
 

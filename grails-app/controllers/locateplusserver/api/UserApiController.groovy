@@ -272,6 +272,15 @@ class UserApiController {
 
     def getrpStatus(){
 
+        def imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         log.error("get grp ")
         //get data from request
         def placeId = request.JSON.placeId
@@ -283,14 +292,14 @@ class UserApiController {
 
         def photoStatus = place.photoStatus
 
-        def rating = ratingService.getOverallPlaceRating(place)
+        def rating = ratingService.getRatingByUserAndPlace(user ,place)
 
         def noOfUsers = ratingService.getTotalUsersForPlace(place)
 
         //save place object
         place.save(flush: true, failOnError: true)
 
-        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus, rating:rating , noOfUsers : noOfUsers]
+        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus, rating:rating , noOfUsers : 4]
 
         //return response
         render resp as JSON
