@@ -95,7 +95,6 @@ class RatingService {
         photoTotalRating
 
 
-
     }
 
     def infoRatingAlgorithm(def infoRating){
@@ -180,19 +179,37 @@ class RatingService {
 
 
 
-    def getOverallPlaceStars(Place place)
+    def getPlaceStars(Place place)
     {
 
         def ratingList = getRatingByPlace(place)
 
         def ratingListSize = ratingList.size()
 
+        def totalRating = 0
+
+        def stars = 0
+
         ratingList.each{member->
 
+            def infoRating = member.infoRating
+            def photoRating = member.photoRating
+            def facilitiesRating = member.facilitiesRating
+            def overAllRating = member.overAllRating
 
+            infoRating = infoRating/20
+            photoRating = photoRating/20
+            facilitiesRating = facilitiesRating/20
+
+            totalRating += infoRating + photoRating + facilitiesRating + overAllRating
 
         }
-        ratings
+
+        if(ratingListSize>0){
+            stars = totalRating/ratingListSize
+        }
+
+        stars
 
     }
 

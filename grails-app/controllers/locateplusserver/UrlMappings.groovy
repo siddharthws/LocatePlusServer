@@ -35,7 +35,6 @@ class UrlMappings {
         "/api/user/overallRating"      (controller: "RatingApi") { action = [POST : "overallRating"]}
         "/api/user/infoRating"      (controller: "RatingApi") { action = [POST : "infoRating"]}
         "/api/user/photoRating"      (controller: "RatingApi") { action = [POST : "photoRating"]}
-        "/api/user/infoRating"      (controller: "RatingApi") { action = [POST : "infoRating"]}
         "/api/user/facilitiesRating"      (controller: "RatingApi") { action = [POST : "facilitiesRating"]}
 
         /*---------------------Admin APIs-----------------------*/

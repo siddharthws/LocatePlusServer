@@ -11,7 +11,7 @@ class Marshaller {
 
     def userService
 
-    static def serializePlace(Place place ,def rating,def noOfUsers){
+    static def serializePlace(Place place){
 
         def category = serializeCategory(place.category)
 
@@ -33,10 +33,7 @@ class Marshaller {
                 address:       place.address,
                 facilities :   facilities,
                 description :  place.description,
-                stars :        place.stars,
-                rating:        rating,
-                noOfUsers:     noOfUsers
-
+                stars :        place.stars
         ]
     }
 
