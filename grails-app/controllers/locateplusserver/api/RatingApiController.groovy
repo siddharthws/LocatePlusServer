@@ -2,7 +2,8 @@ package locateplusserver.api
 
 import grails.converters.JSON
 import locateplusserver.domains.User
-import locateplusserver.domains.Admin
+import locateplusserver.domains.Place
+import locateplusserver.Constants
 import locateplusserver.domains.Rating
 import locateplusserver.ApiException
 
