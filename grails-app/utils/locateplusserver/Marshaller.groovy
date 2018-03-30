@@ -43,7 +43,6 @@ class Marshaller {
                 address:       place.address,
                 facilities :   facilities,
                 description :  place.description,
-               // photos :       photos,
                 stars :        place.stars
         ]
     }

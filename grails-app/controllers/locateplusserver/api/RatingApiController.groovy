@@ -19,6 +19,7 @@ class RatingApiController {
     def photoRating(){
 
         def imei = request.getHeader("imei")
+        def placeId = request.JSON.placeId
 
         // get user object by imei
         def user = userService.getByImei(imei)
@@ -27,7 +28,7 @@ class RatingApiController {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        def placeId = request.JSON.placeId
+
         def photoList = request.JSON.photos
 
         Place place = userService.getPlaceById(placeId)
@@ -37,8 +38,8 @@ class RatingApiController {
 
         photoList.each { member ->
 
-            def uuid = member.uuid
-            def rating = member.photorate
+            def uuid = member.Uuid
+            def rating = member.photoRate
 
             photoRating.add(uuid: uuid, rating: rating)
 
@@ -125,6 +126,7 @@ class RatingApiController {
         }
 
         def placeId = request.JSON.placeId
+
         def facilitiesList = request.JSON.facilities
 
         Place place = userService.getPlaceById(placeId)
@@ -133,8 +135,8 @@ class RatingApiController {
 
         facilitiesList.each{member->
 
-            def id = member.id
-            def rating = member.facilityrate
+            def id = member.faciltyId
+            def rating = member.facilityRate
 
             facilityRating.add(id:id, rating:rating)
         }
@@ -145,16 +147,15 @@ class RatingApiController {
 
         if(!ratingPresent){
 
-            ratingService.createNewRating("faciltiesRating",place,user,rating)
+            ratingService.createNewRating("facilitiesRating",place,user,rating)
 
         } else{
 
-            ratingPresent.faciltiesRating = rating
+            ratingPresent.facilitiesRating = rating
 
             ratingPresent.save(flush: true, failOnError: true)
 
         }
-
 
         def resp = [success: true]
         render resp as JSON
@@ -197,29 +198,25 @@ class RatingApiController {
 
     }
 
-    def getStars(){
+ /*   def getStars(){
 
         //get data from request
         def placeId = request.JSON.placeId
 
         def place = userService.getPlaceById(placeId)
 
-        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
+        def stars = ratingService.getPlaceStars(place)
 
+        place.stars = stars
 
+        place.save(flush: true, failOnError: true)
 
-        if(!ratingPresent){
+        def resp = [stars: stars]
 
-
-
-        }else {
-
-
-
-        }
+        render resp as JSON
 
     }
-
+*/
 
 
 

@@ -8,7 +8,7 @@ class Rating {
 
     int overAllRating = 0
     int photoRating = 0
-    int faciltiesRating = 0
+    int facilitiesRating = 0
     int infoRating = 0
 
     static belongsTo = [

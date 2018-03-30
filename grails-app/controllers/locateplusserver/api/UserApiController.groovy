@@ -15,6 +15,7 @@ class UserApiController {
     def authService
     def updateService
     def photoService
+    def ratingService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
@@ -266,15 +267,25 @@ class UserApiController {
         // get place by ID
         def place = userService.getPlaceById(placeId)
 
+        def stars = ratingService.getPlaceStars(place)
+
+        def noOfUsers = ratingService.getTotalUsersForPlace(place)
+
+        // Save place Stars
+
+        place.stars = stars
+
         // get review and photo update status of place
         def reviewStatus = place.reviewStatus
 
         def photoStatus = place.photoStatus
 
+
+
         //save place object
         place.save(flush: true, failOnError: true)
 
-        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus]
+        def resp = [reviewResponse : reviewStatus, photoResponse : photoStatus, stars:stars, noOfUsers:noOfUsers ]
 
         //return response
         render resp as JSON
