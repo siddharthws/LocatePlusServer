@@ -2,7 +2,8 @@ package locateplusserver.api
 
 import grails.converters.JSON
 import locateplusserver.domains.User
-import locateplusserver.domains.Admin
+import locateplusserver.domains.Place
+import locateplusserver.Constants
 import locateplusserver.domains.Rating
 import locateplusserver.ApiException
 
@@ -11,21 +12,159 @@ class RatingApiController {
     def authService
     def userService
     def adminService
+    def ratingService
 
     // ----------------------- Public APIs ---------------------------//
 
-    def photoInappropriate(){
+    def photoRating(){
+
+        def imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def placeId = request.JSON.placeId
+        def photoList = request.JSON.photos
+
+        Place place = userService.getPlaceById(placeId)
 
 
+        def photoRating = []
+
+        photoList.each { member ->
+
+            def uuid = member.uuid
+            def rating = member.photorate
+
+            photoRating.add(uuid: uuid, rating: rating)
+
+        }
+
+        Integer rating = ratingService.photoRatingAlgorithm(photoRating)
 
 
+        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
+
+        if(!ratingPresent){
+
+            ratingService.createNewRating("photoRating",place,user,rating)
+
+            } else{
+
+            ratingPresent.photoRating = rating
+
+            ratingPresent.save(flush: true, failOnError: true)
+
+        }
+
+
+        def resp = [success: true]
+        render resp as JSON
 
     }
 
-    def addOverallRating(){
+    def infoRating(){
+
+        def imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def placeId = request.JSON.placeId
+        def nameRating = request.JSON.name
+        def categoryRating = request.JSON.category
+        def addressRating = request.JSON.address
+
+        Place place = userService.getPlaceById(placeId)
+
+        def infoRating = []
+
+        infoRating.add(rating:nameRating)
+        infoRating.add(rating:categoryRating)
+        infoRating.add(rating:addressRating)
+
+        Integer rating =  ratingService.infoRatingAlgorithm(infoRating)
+
+        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
+
+        if(!ratingPresent){
+
+            ratingService.createNewRating("infoRating",place,user,rating)
+
+        } else{
+
+            ratingPresent.infoRating = rating
+
+            ratingPresent.save(flush: true, failOnError: true)
+
+        }
+
+
+        def resp = [success: true]
+        render resp as JSON
+
+    }
+
+    def facilitiesRating(){
+
+        def imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def placeId = request.JSON.placeId
+        def facilitiesList = request.JSON.facilities
+
+        Place place = userService.getPlaceById(placeId)
+
+        def facilityRating = []
+
+        facilitiesList.each{member->
+
+            def id = member.id
+            def rating = member.facilityrate
+
+            facilityRating.add(id:id, rating:rating)
+        }
+
+        Integer rating =  ratingService.facilitiesRatingAlgorithm(facilityRating)
+
+        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
+
+        if(!ratingPresent){
+
+            ratingService.createNewRating("faciltiesRating",place,user,rating)
+
+        } else{
+
+            ratingPresent.faciltiesRating = rating
+
+            ratingPresent.save(flush: true, failOnError: true)
+
+        }
+
+
+        def resp = [success: true]
+        render resp as JSON
+
+    }
+
+    def overallRating(){
 
         //get data from request
-        def overAllRating = request.JSON.rating
+        def rating = request.JSON.rating
         def placeId = request.JSON.placeId
         def imei = request.getHeader("imei")
 
@@ -36,25 +175,51 @@ class RatingApiController {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
-        /// update RAATINGggggggggggggggggggggggggggggggggggggggggggssssssssssss
         def place = userService.getPlaceById(placeId)
 
-        Rating rating = new Rating(
-                overAllRating: overAllRating,
-                owner: user
-        )
+        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
 
+        if(!ratingPresent){
 
-        // associate review to a place
-        place.addToRatings(rating)
+            ratingService.createNewRating("overAllRating",place,user,rating)
 
-        //save place object
-        place.save(flush: true, failOnError: true)
+        } else{
+
+            ratingPresent.overAllRating = rating
+
+            ratingPresent.save(flush: true, failOnError: true)
+
+        }
+
 
         def resp = [success: true]
         render resp as JSON
 
     }
+
+    def getStars(){
+
+        //get data from request
+        def placeId = request.JSON.placeId
+
+        def place = userService.getPlaceById(placeId)
+
+        def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
+
+
+
+        if(!ratingPresent){
+
+
+
+        }else {
+
+
+
+        }
+
+    }
+
 
 
 

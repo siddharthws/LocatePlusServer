@@ -31,7 +31,11 @@ class UrlMappings {
         "/api/user/upload"      (controller: "PhotoApi") { action = [POST : "upload"]}
         "/api/user/getPhoto"      (controller: "PhotoApi") { action = [POST : "getPhoto"]}
 
-        "/api/user/addOverallRating"      (controller: "RatingApi") { action = [POST : "addOverallRating"]}
+        "/api/user/overallRating"      (controller: "RatingApi") { action = [POST : "overallRating"]}
+        "/api/user/infoRating"      (controller: "RatingApi") { action = [POST : "infoRating"]}
+        "/api/user/photoRating"      (controller: "RatingApi") { action = [POST : "photoRating"]}
+        "/api/user/infoRating"      (controller: "RatingApi") { action = [POST : "infoRating"]}
+        "/api/user/facilitiesRating"      (controller: "RatingApi") { action = [POST : "facilitiesRating"]}
 
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }
