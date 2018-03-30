@@ -118,7 +118,7 @@ class UserApiController {
 
         // Create Place Json objects for each place and add to response
         placeList.each { member ->
-            places.add(locateplusserver.Marshaller.serializePlace(member, 4 ,4))
+            places.add(locateplusserver.Marshaller.serializePlace(member))
         }
 
         def resp = [markers:places]
@@ -284,23 +284,26 @@ class UserApiController {
         log.error("get grp ")
         //get data from request
         def placeId = request.JSON.placeId
-        // get place by Iex
+        // get place by ID
         def place = userService.getPlaceById(placeId)
+
+        def stars = ratingService.getPlaceStars(place)
+
+        def noOfUsers = ratingService.getTotalUsersForPlace(place)
+
+        // Save place Stars
+
+        place.stars = stars
 
         // get review and photo update status of place
         def reviewStatus = place.reviewStatus
 
         def photoStatus = place.photoStatus
 
-        def rating = ratingService.getRatingByUserAndPlace(user ,place)
-        rating = rating ? rating : 0
-
-        def noOfUsers = ratingService.getTotalUsersForPlace(place)
-
         //save place object
         place.save(flush: true, failOnError: true)
 
-        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus, rating:rating , noOfUsers : 4]
+        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus]
 
         //return response
         render resp as JSON

@@ -6,11 +6,10 @@ class Rating {
     Date dateCreated
     Date lastUpdated
 
-    int overAllRating
-
-    int photoRating
-    int faciltiesRating
-    int infoRating
+    int overAllRating = 0
+    int photoRating = 0
+    int facilitiesRating = 0
+    int infoRating = 0
 
     static belongsTo = [
             place : Place,
