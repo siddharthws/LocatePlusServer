@@ -253,7 +253,7 @@ class UserApiController {
         //get data from request
         def placeId = request.JSON.placeId
 
-        def reviewList = userService.getReviewsById(placeId)
+        def reviewList = userService.getReviewsByPlaceId(placeId)
 
         def reviews = new JSONArray()
 
@@ -299,7 +299,6 @@ class UserApiController {
         def reviewStatus = place.reviewStatus
 
         def photoStatus = place.photoStatus
-
 
 
         //save place object
