@@ -25,27 +25,26 @@ class UrlMappings {
         "/api/user/getPlaces"       (controller: "UserApi") { action = [GET  : "getPlaces"]}
         "/api/user/getFC"           (controller:"UserApi")  {action = [GET  : "getFC"]}
         "/api/user/addRatings"      (controller: "UserApi") { action = [POST : "addRatings"]}
-
-        "/api/user/getrpStatus"      (controller: "UserApi") { action = [POST : "getrpStatus"]}
+        "/api/user/getrpStatus"     (controller: "UserApi") { action = [POST : "getrpStatus"]}
 
         /*---------------------photo APIs-----------------------*/
-        "/api/user/upload"      (controller: "PhotoApi") { action = [POST : "upload"]}
-        "/api/user/getPhoto"      (controller: "PhotoApi") { action = [POST : "getPhoto"]}
-        "/api/user/getPhotoApp"      (controller: "PhotoApi") { action = [POST : "getPhotoApp"]}
+        "/api/user/upload"              (controller: "PhotoApi") { action = [POST : "upload"]}
+        "/api/user/getPhoto"            (controller: "PhotoApi") { action = [POST : "getPhoto"]}
+        "/api/user/getPhotoApp"         (controller: "PhotoApi") { action = [POST : "getPhotoApp"]}
 
         /*---------------------Rating APIs-----------------------*/
-        "/api/user/photoRating"      (controller: "RatingApi") { action = [POST : "photoRating"]}
-        "/api/user/addOverallRating"      (controller: "RatingApi") { action = [POST : "addOverallRating"]}
-        "/api/user/getOverallRating"      (controller: "RatingApi") { action = [POST : "getOverallRating"]}
-        "/api/user/photoRating"      (controller: "RatingApi") { action = [POST : "photoRating"]}
+        "/api/user/photoRating"             (controller: "RatingApi") { action = [POST : "photoRating"]}
+        "/api/user/addOverallRating"        (controller: "RatingApi") { action = [POST : "addOverallRating"]}
+        "/api/user/getOverallRating"        (controller: "RatingApi") { action = [POST : "getOverallRating"]}
+        "/api/user/photoRating"             (controller: "RatingApi") { action = [POST : "photoRating"]}
 
         /*---------------------Admin APIs-----------------------*/
         "/api/admin/addCategory"        (controller: "AdminApi") { action = [POST: "addCategory"] }
         "/api/admin/removePlace"        (controller: "AdminApi") { action = [POST: "removePlace"] }
-        "/api/admin/addFacility"      (controller: "AdminApi") { action = [POST: "addFacility"] }
-        "/api/admin/removeCategory"      (controller: "AdminApi") { action = [POST: "removeCategory"] }
-        "/api/admin/removePhotos"        (controller: "AdminApi") { action = [POST: "removePhotos"] }
-
+        "/api/admin/addFacility"        (controller: "AdminApi") { action = [POST: "addFacility"] }
+        "/api/admin/removeCategory"     (controller: "AdminApi") { action = [POST: "removeCategory"] }
+        "/api/admin/removePhotos"       (controller: "AdminApi") { action = [POST: "removePhotos"] }
+        "/api/admin/importUdid"         (controller: "AdminApi") { action = [POST: "importUdid"] }
 
 
     }

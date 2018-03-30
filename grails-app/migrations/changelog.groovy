@@ -4,4 +4,5 @@ databaseChangeLog = {
     include file: 'add-preree-db.groovy'
     include file: 'Ratingadd-db.groovy'
     include file: 'add-placddb.groovy'
+    include file: 'udid.groovy'
 }
