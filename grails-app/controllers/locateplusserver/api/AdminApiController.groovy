@@ -6,6 +6,7 @@ import locateplusserver.Constants
 import locateplusserver.domains.Facility
 import locateplusserver.domains.Category
 import locateplusserver.domains.Place
+import locateplusserver.domains.Udid
 
 class AdminApiController {
 
@@ -16,6 +17,7 @@ class AdminApiController {
     def updateService
     def adminService
     def photoService
+    def importService
     // ----------------------- Public APIs ---------------------------//
 
     // API to add a category
@@ -160,8 +162,35 @@ class AdminApiController {
 
     }
 
+    def importUdid() {
 
+        log.error("importing")
 
+        // Get file
+        def file = request.getFile('importFile')
+
+        // Get table from file
+        def table = importService.parseExcel(file)
+
+        // Validate all columns
+        importService.checkColumns(table.columns)
+
+        // Validate all rows
+        importService.checkRows(table.rows, table.columns)
+
+        def udidJson = []
+        table.rows.eachWithIndex {row, i -> udidJson.push(importService.parseRow(table.columns, row))}
+
+        log.error(udidJson.toString())
+
+        udidJson.each {udid ->
+            new Udid(name: udid.Name, udid: udid.Udid).save(flush: true, failOnError: true)
+        }
+
+        def resp = [success: true]
+
+        render resp as JSON
+    }
 
     // ----------------------- Private APIs ---------------------------//
 }
