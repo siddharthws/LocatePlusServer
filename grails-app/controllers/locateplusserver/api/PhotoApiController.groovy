@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile
 import locateplusserver.ApiException
 import org.grails.web.json.JSONArray
 import grails.io.IOUtils
+import locateplusserver.Constants
 
 
 class PhotoApiController {
@@ -17,6 +18,7 @@ class PhotoApiController {
     // API to register a user and return user details
     def upload() {
 
+        log.error("upload photo request")
         // Get Multipart file from parameter name
         List<MultipartFile> files = request.multiFileMap.uploadImage
 
@@ -41,22 +43,24 @@ class PhotoApiController {
             // Get input Stream on file
             def is = uploadedFile.getInputStream()
 
-            //Store photo
-            photoService.putPhoto(uuid)
-
-
             // Write photo to newly created file
             os << is
+
+            //Store photo
+            photoService.putPhoto(uuid)
 
         }
 
         // Send  response
         def resp=  [photo: true]
         render resp as JSON
+
+        log.error("upload photo response")
     }
 
     def getPhoto(){
 
+        log.error("photo req")
 
         def placeId = request.JSON.placeId
 
@@ -67,31 +71,35 @@ class PhotoApiController {
 
         def uuid = 0
 
-        def resp = new JSONArray()
-
-        List<MultipartFile> files = new ArrayList<MultipartFile>()
+        def photos = []
 
         photoList.each{member->
 
-            uuid = member.uuid.toString()
+             def removed = member.isRemoved
 
-            def file= new File("F:/temp/"+uuid+".png")
+            if(!removed){
 
-            byte[] ba = IOUtils.copyToByteArray(file)
+                uuid = member.uuid.toString()
 
-            resp.add(ba)
+                def inAppropriateCount = member.inAppropriateCount
+
+                def file= new File("F:/temp/"+uuid+".png")
+
+                byte[] ba = IOUtils.copyToByteArray(file)
+
+                photos.add(uuid:uuid, photo:ba, inAppropriateCount:inAppropriateCount)
+
+            }
 
         }
 
+        log.error("length:"+photos.size())
+        def resp = [photos:photos]
         // Send bytes in response
         render resp as JSON
 
 
-
-
-
-
-
+        log.error("get photo response")
 
 
        // MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
@@ -105,6 +113,57 @@ class PhotoApiController {
         // Return photo object
        // render(file: new File("F:/temp/", name + ".png"), fileName: name+".png")
 
+
+
+    }
+
+
+    def getPhotoApp(){
+
+        log.error("photo req")
+
+        def placeId = request.JSON.placeId
+
+        // get place by ID
+        def place = userService.getPlaceById(placeId)
+
+        def photoList = photoService.getPhotoByPlace(place)
+
+        def uuid = 0
+
+        def photos = []
+
+        photoList.each{member->
+
+            def removed = member.isRemoved
+
+            if(!removed){
+
+                uuid = member.uuid.toString()
+
+                def inAppropriateCount = member.inAppropriateCount
+
+                def file= new File("F:/temp/"+uuid+".png")
+
+                byte[] ba = IOUtils.copyToByteArray(file)
+
+                String base64 = ba.encodeBase64().toString()
+
+                photos.add(uuid:uuid, photo:base64, inAppropriateCount:inAppropriateCount)
+
+                log.error("photo Uuid"+uuid)
+
+            }
+
+        }
+
+        log.error("length:"+photos.size())
+        def resp = [photos:photos]
+        // Send bytes in response
+        render resp as JSON
+
+
+        log.error("get photo response")
 
 
     }

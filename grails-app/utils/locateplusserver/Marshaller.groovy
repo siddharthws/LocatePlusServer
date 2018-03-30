@@ -4,15 +4,14 @@ import locateplusserver.domains.Place
 import locateplusserver.domains.Category
 import locateplusserver.domains.Facility
 import locateplusserver.domains.Photo
+import locateplusserver.domains.Rating
 import org.grails.web.json.JSONArray
 
 class Marshaller {
 
-
-
     def userService
 
-    static def serializePlace(Place place){
+    static def serializePlace(Place place ,def rating,def noOfUsers){
 
         def category = serializeCategory(place.category)
 
@@ -25,15 +24,6 @@ class Marshaller {
             facilities.add(serializeFacility(member))
         }
 
-//        def photoList = place.photos
-//
-//        def photos = new JSONArray()
-//
-//        photoList.each { member ->
-//
-//            photos.add(serializePhoto(member))
-//        }
-
         return [
                 placeId:       place.id,
                 name:          place.name,
@@ -43,8 +33,10 @@ class Marshaller {
                 address:       place.address,
                 facilities :   facilities,
                 description :  place.description,
-               // photos :       photos,
-                stars :        place.stars
+                stars :        place.stars,
+                rating:        rating,
+                noOfUsers:     noOfUsers
+
         ]
     }
 

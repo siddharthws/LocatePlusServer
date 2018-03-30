@@ -60,7 +60,7 @@ class UpdateService {
 
     def updatePhotoStatus(def place){
 
-        place.placeStatus += 1
+        place.photoStatus += 1
 
         // save place
         place.save(flush: true, failOnError: true)

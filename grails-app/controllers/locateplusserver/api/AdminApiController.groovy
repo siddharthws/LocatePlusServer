@@ -15,17 +15,27 @@ class AdminApiController {
     def authService
     def updateService
     def adminService
+    def photoService
     // ----------------------- Public APIs ---------------------------//
 
     // API to add a category
     def addCategory() {
 
+        log.error("Add Category")
         def newCategory = request.JSON.category
 
+        def categoryPresent = userService.getCategoryByName(newCategory)
 
-           def category = new Category(
+        def isPresent = categoryPresent.equalsIgnoreCase(newCategory)
+
+        if(isPresent)
+        {
+            throw new ApiException("Category Already Present", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def category = new Category(
                     name : newCategory
-            )
+        )
 
         // save category in database .
         category.save(flush: true, failOnError: true)
@@ -40,24 +50,43 @@ class AdminApiController {
     // API to remove a place
     def removePlace() {
 
+        log.error("Remove Place")
         def id = request.JSON.placeId
 
         // get Place by id
-        def place = Place.findById(id)
+        Place place = Place.findById(id)
+
+        if(!place){
+            throw new ApiException("Place Note Present", Constants.HttpCodes.BAD_REQUEST)
+        }
+
         place.isRemoved = true
+
+        photoService.removePhotoByPlace(place)
+
         place.save(flush: true,failOnError: true)
 
         // update the Place status for all users
         updateService.updatePlaceStatus()
 
         def resp = [success: true]
+
         render resp as JSON
 
     }
 
     def addFacility(){
 
+        log.error("Add Facility")
         def newFacility = request.JSON.facility
+
+
+        def isPresent = userService.getFacilityByName(newFacility)
+
+        if(isPresent)
+        {
+            throw new ApiException("Facility Already Present", Constants.HttpCodes.BAD_REQUEST)
+        }
 
         log.error("hello"+newFacility)
         // Create new facility object based on facility provided
@@ -77,6 +106,62 @@ class AdminApiController {
 
 
     }
+
+    def removeCategory()
+    {
+
+        log.error("remove Category")
+        def categoryId = request.JSON.categoryId
+
+        def category = userService.getCategoryById(categoryId)
+
+        category.delete(flush: true,failOnError: true)
+
+
+    }
+
+
+    def removeFacility()
+    {
+        def facilityId = request.JSON.facilityId
+
+        def facility = userService.getFacilityById(facilityId)
+
+
+
+    }
+
+
+    def removePhotos(){
+
+        log.error("Remove Photo")
+
+        def uuid = request.JSON.photoUuid
+
+        def placeId = request.JSON.placeId
+
+        Place place = userService.getPlaceById(placeId)
+
+        def UuidString = uuid.toString()
+
+        // get Place by id
+         def response  = photoService.removePhotos(UuidString)
+
+        if(!response){
+            throw new ApiException("Photo Not Removed", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        // update the Place status for all users
+        updateService.updatePhotoStatus(place)
+
+        def resp = [success: true]
+
+        render resp as JSON
+
+    }
+
+
+
 
     // ----------------------- Private APIs ---------------------------//
 }

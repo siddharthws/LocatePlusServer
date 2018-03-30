@@ -42,14 +42,23 @@ class PhotoService {
     }
 
     // Removes photo
-    def removePhoto(String uuid)
+    def removePhotos(String uuid)
     {
         // Find photo by uuid
-        Photo photo = findByUuid(uuid)
+        Photo photo = Photo.findByUuid(uuid)
 
-        // set is removed as true
-        photo.isRemoved = true
-        photo.save(flush: true,failOnError: true)
+        if(photo){
+            // set is removed as true
+            photo.isRemoved = true
+            photo.save(flush: true,failOnError: true)
+
+            return true
+        }
+
+        else{
+             return false
+            }
+
 
     }
 
@@ -65,6 +74,19 @@ class PhotoService {
     def updatePhotoInappropriateStatus(def photo) {
 
 
+
+    }
+
+    def removePhotoByPlace(Place place)
+    {
+        def photosList = place.photos
+
+        photosList.each { member ->
+
+            member.isRemoved = true
+
+            member.save(flush: true,failOnError: true)
+        }
 
     }
 

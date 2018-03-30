@@ -2,6 +2,7 @@ package locateplusserver.services
 
 import grails.gorm.transactions.Transactional
 import locateplusserver.domains.Admin
+import locateplusserver.domains.Facility
 import locateplusserver.ApiException
 import locateplusserver.Constants
 
@@ -26,6 +27,23 @@ class AdminService {
         {
             throw new ApiException("Email not present", Constants.HttpCodes.BAD_REQUEST)
         }
+
+    }
+
+    def getPlaceByCategory(Category category){
+
+        def placeList = Place.findAllByCategory(category)
+
+        placeList
+
+    }
+
+    def getPlaceByFacility(Facility facility)
+    {
+
+        def placeList = Place.findAllByFacility(facility)
+
+        placeList
 
     }
 

@@ -43,6 +43,13 @@ class UserService {
 
         facility
     }
+    def getFacilityByName(def name){
+
+        def facility = Facility.findByName(name)
+
+        facility
+
+    }
 
 
     // method to get category object by ID
@@ -56,6 +63,14 @@ class UserService {
         }
 
         category
+    }
+
+    def getCategoryByName(def name){
+
+        def category = Category.findByName(name)
+
+        category
+
     }
 
     // Method to get all places
