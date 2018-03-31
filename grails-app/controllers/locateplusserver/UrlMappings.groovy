@@ -45,7 +45,6 @@ class UrlMappings {
         "/api/admin/removeCategory"     (controller: "AdminApi") { action = [POST: "removeCategory"] }
         "/api/admin/removePhotos"       (controller: "AdminApi") { action = [POST: "removePhotos"] }
         "/api/admin/importUdid"         (controller: "AdminApi") { action = [POST: "importUdid"] }
-
-
+        "/api/admin/validateUdid"       (controller: "AdminApi") { action = [POST: "validateUdid"] }
     }
 }
