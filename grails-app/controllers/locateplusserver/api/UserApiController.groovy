@@ -4,6 +4,7 @@ import grails.converters.JSON
 import locateplusserver.domains.Place
 import locateplusserver.domains.Rating
 import locateplusserver.domains.Review
+import locateplusserver.domains.Complaints
 import locateplusserver.domains.Place
 import locateplusserver.ApiException
 import locateplusserver.Constants
@@ -16,6 +17,7 @@ class UserApiController {
     def updateService
     def photoService
     def ratingService
+    def adminService
 
     // ----------------------- Public APIs ---------------------------//
     // Api to save place entered in database
@@ -44,6 +46,8 @@ class UserApiController {
         def photosArray = request.JSON.photouuid
         def contact = request.JSON.contact
 
+        log.error("contact:"+contact)
+
         address.replaceAll("\\n", "")
 
         def cat = request.JSON.category
@@ -60,7 +64,7 @@ class UserApiController {
                 address     : address,
                 category    : category,
                 description : description,
-                contact     : contact
+                contact     : contact.toString()
         )
 
         // Iterate over facilities and get each facility object
@@ -311,6 +315,89 @@ class UserApiController {
 
         //return response
         render resp as JSON
+
+    }
+
+
+    def addComplaints(){
+
+        // Get IMEI from request
+        String imei = request.getHeader("imei")
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        String title = request.JSON.title
+        String description = request.JSON.description
+        def photosArray = request.JSON.photouuid
+
+
+        Complaints complaints = new Complaints(
+                title:title , description:description
+        )
+
+        // Iterate over Photos and get each photo object
+        photosArray.each { member ->
+
+
+            //get photo by uuid
+            def photo = photoService.getPhoto(member)
+
+            if(photo)
+            {
+                complaints.addToPhotos(photo)
+            }
+
+        }
+
+        // save place
+        complaints.save(flush: true, failOnError: true)
+
+        //return response
+        def resp = [sucess: true]
+        render resp as JSON
+
+    }
+
+
+    def resolveComplaint(){
+
+        // Get IMEI from request
+        String imei = request.getHeader("imei")
+
+        // Get IMEI from request
+        String udid = request.JSON.udid
+        String name = request.JSON.name
+
+        // get user object by imei
+        def user = userService.getByImei(imei)
+
+        if(!user) {
+            throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        def response = adminService.getByUdid(udid,name)
+
+        if(!response) {
+            throw new locateplusserver.ApiException('Udid not Present', Constants.HttpCodes.BAD_REQUEST)
+        }
+
+        response.resolvedCount += 1
+
+        // save place
+        response.save(flush: true, failOnError: true)
+
+        //return response
+        def resp = [sucess: true]
+        render resp as JSON
+
+
+
+
 
     }
 }

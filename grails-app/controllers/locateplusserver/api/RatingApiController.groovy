@@ -24,7 +24,7 @@ class RatingApiController {
         // get user object by imei
         def user = userService.getByImei(imei)
 
-        if(!user) {
+               if(!user) {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
 

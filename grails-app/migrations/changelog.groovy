@@ -10,4 +10,5 @@ databaseChangeLog = {
     include file: 'add-ratingb.groovy'
     include file: 'add-contact-placeb.groovy'
     include file: 'migrationdescription.groovy'
+    include file: 'complainrs.groovy'
 }
