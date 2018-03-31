@@ -55,7 +55,7 @@ class UserApiController {
 
         //get category object by Id of category
         def category = userService.getCategoryById(cat)
-
+//
         //creating a new pace object
         Place place = new Place(
                 name        : name,
@@ -64,7 +64,7 @@ class UserApiController {
                 address     : address,
                 category    : category,
                 description : description,
-                contact     : contact.toString()
+                contactNumber     : contact
         )
 
         // Iterate over facilities and get each facility object
