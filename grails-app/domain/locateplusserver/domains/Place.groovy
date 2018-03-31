@@ -25,6 +25,8 @@ class Place {
 
     double stars = 0
 
+    String contactNumber
+
     static belongsTo = [
            owner : User
     ]
@@ -38,6 +40,7 @@ class Place {
 
     static constraints = {
             description nullable: true
+            contactNumber nullable: true
     }
 
     static mapping = {

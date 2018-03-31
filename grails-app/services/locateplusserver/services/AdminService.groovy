@@ -48,9 +48,9 @@ class AdminService {
 
     }
 
-    def getByUdid(String udid) {
+    def getByUdid(String udid , String name) {
 
-        def udidList = Udid.findAllByUdid(udid)
+        def udidList = Udid.findByUdidAndName(udid,name)
 
         udidList
     }

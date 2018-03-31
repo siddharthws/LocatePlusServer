@@ -129,7 +129,7 @@ class ImportService {
             // Get all rows with this ID
             def duplicates = rows.findAll { it -> it[udId] == row[udId] }
 
-            if (duplicates.size() > 0) {
+            if (duplicates.size() > 1) {
                 // Throw exception
                 throw new locateplusserver.ApiException("Duplicate UDID found")
             }

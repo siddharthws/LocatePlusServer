@@ -90,6 +90,13 @@ class PhotoService {
 
     }
 
+    def getPhotoByUuid(String uuid){
+
+        Photo photo = Photo.getFindByUuid(uuid)
+
+        photo
+    }
+
 
     // ----------------------- Private methods ---------------------------//
     //Method to generate id and username

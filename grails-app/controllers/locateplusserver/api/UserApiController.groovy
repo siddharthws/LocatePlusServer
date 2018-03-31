@@ -118,7 +118,9 @@ class UserApiController {
 
         // Create Place Json objects for each place and add to response
         placeList.each { member ->
-            places.add(locateplusserver.Marshaller.serializePlace(member))
+            def stars = ratingService.getPlaceStars(member)
+            def noOfUsers = ratingService.getTotalUsersForPlace(member)
+            places.add(locateplusserver.Marshaller.serializePlace(member,stars, noOfUsers))
         }
 
         def resp = [markers:places]

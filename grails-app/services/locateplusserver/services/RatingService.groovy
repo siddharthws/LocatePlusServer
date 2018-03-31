@@ -4,15 +4,16 @@ import grails.gorm.transactions.Transactional
 import locateplusserver.domains.User
 import locateplusserver.domains.Rating
 import locateplusserver.domains.Place
+import locateplusserver.domains.Photo
 
 @Transactional
 class RatingService {
     // ----------------------- Dependencies ---------------------------//
 
     def userService
+    def photoService
 
     // ----------------------- Converter methods ---------------------------//
-
 
 
 
@@ -69,6 +70,8 @@ class RatingService {
             if(member){
                 def uuid = member.uuid
                 def rating = member.rating
+                def Uuid = uuid.toString()
+                Photo photo = photoService.getPhotoByUuid(Uuid)
                 def ratingint = rating.toInteger()
 
                 switch (ratingint){
@@ -78,10 +81,13 @@ class RatingService {
                         break
                     case -1:
                         photoTotalRating -= weightedRating
+                        photo.inAppropriateCount += 1
+                        photo.save(flush: true, failOnError: true)
                         break
                     case 0:
                         // DO nothing
                     break
+
                 }
             }
 
@@ -117,7 +123,7 @@ class RatingService {
                     infoTotalRating -= weightedRating
                     break
                 case 0:
-                    // Do nothing
+                    infoTotalRating -= weightedRating
                     break
             }
         }
@@ -130,6 +136,7 @@ class RatingService {
 
         def infoTotalRatingRounded = Math.round(infoTotalRating * 100) / 100
 
+        log.error("info:"+infoTotalRatingRounded)
         infoTotalRatingRounded
 
      }
@@ -164,13 +171,13 @@ class RatingService {
             }
 
         }
-        log.error("hello:"+weightedRating)
+        log.error("weighted f:"+weightedRating)
 
         if(facilityTotalRating < weightedRating){
 
             facilityTotalRating = 0
         }
-        log.error("total:"+facilityTotalRating)
+        log.error("facility:"+facilityTotalRating)
 
         facilityTotalRating
 
@@ -182,33 +189,40 @@ class RatingService {
     def getPlaceStars(Place place)
     {
 
+
         def ratingList = getRatingByPlace(place)
 
         def ratingListSize = ratingList.size()
 
+        log.error("ratingListSize:"+ratingListSize)
         def totalRating = 0
-
         def stars = 0
 
+        log.error("ratingList:"+ratingList)
         ratingList.each{member->
 
-            def infoRating = member.infoRating
-            def photoRating = member.photoRating
-            def facilitiesRating = member.facilitiesRating
-            def overAllRating = member.overAllRating
+            if(member){
 
-            infoRating = infoRating/20
-            photoRating = photoRating/20
-            facilitiesRating = facilitiesRating/20
+                def infoRating = member.infoRating
+                def photoRating = member.photoRating
+                def facilitiesRating = member.facilitiesRating
+                def overAllRating = member.overAllRating
 
-            totalRating += infoRating + photoRating + facilitiesRating + overAllRating
+                infoRating = infoRating/20
+                photoRating = photoRating/20
+                facilitiesRating = facilitiesRating/20
 
+                totalRating += infoRating + photoRating + facilitiesRating + overAllRating
+            }
         }
 
+        log.error("totalRating:"+totalRating)
         if(ratingListSize>0){
-            stars = totalRating/ratingListSize
+
+            stars = totalRating/4*ratingListSize
         }
 
+        log.error("stars:"+stars)
         stars
 
     }
