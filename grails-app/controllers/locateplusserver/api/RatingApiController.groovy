@@ -31,14 +31,16 @@ class RatingApiController {
 
         def photoList = request.JSON.photos
 
-        Place place = userService.getPlaceById(placeId)
+        log.error("photod"+photoList)
+        log.error("photod"+request.JSON)
 
+        Place place = userService.getPlaceById(placeId)
 
         def photoRating = []
 
         photoList.each { member ->
 
-            def uuid = member.Uuid
+            def uuid = member.photoUuid
             def rating = member.photoRate
 
             photoRating.add(uuid: uuid, rating: rating)
@@ -46,7 +48,6 @@ class RatingApiController {
         }
 
         Integer rating = ratingService.photoRatingAlgorithm(photoRating)
-
 
         def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
 
@@ -165,7 +166,7 @@ class RatingApiController {
     def overallRating(){
 
         //get data from request
-        def rating = request.JSON.rating
+        def ratings = request.JSON.rating
         def placeId = request.JSON.placeId
         def imei = request.getHeader("imei")
 
@@ -177,6 +178,8 @@ class RatingApiController {
         }
 
         def place = userService.getPlaceById(placeId)
+
+        Integer rating = ratings.toInteger()
 
         def ratingPresent = ratingService.getRatingByUserAndPlace(user,place)
 
@@ -191,6 +194,8 @@ class RatingApiController {
             ratingPresent.save(flush: true, failOnError: true)
 
         }
+
+
 
 
         def resp = [success: true]

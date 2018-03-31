@@ -10,8 +10,9 @@ import org.grails.web.json.JSONArray
 class Marshaller {
 
     def userService
+    def ratingService
 
-    static def serializePlace(Place place){
+    static def serializePlace(Place place, def stars, def noOfUsers){
 
         def category = serializeCategory(place.category)
 
@@ -33,7 +34,8 @@ class Marshaller {
                 address:       place.address,
                 facilities :   facilities,
                 description :  place.description,
-                stars :        place.stars
+                stars :        stars,
+                noOfUsers:     noOfUsers
         ]
     }
 

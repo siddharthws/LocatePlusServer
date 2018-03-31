@@ -8,4 +8,6 @@ databaseChangeLog = {
     include file: 'add-placddb.groovy'
     include file: 'udid.groovy'
     include file: 'add-ratingb.groovy'
+    include file: 'add-contact-placeb.groovy'
+    include file: 'migrationdescription.groovy'
 }

@@ -29,9 +29,9 @@ class AdminApiController {
 
         def categoryPresent = userService.getCategoryByName(newCategory)
 
-        def isPresent = categoryPresent.equalsIgnoreCase(newCategory)
+        //def isPresent = categoryPresent.equalsIgnoreCase(newCategory)
 
-        if(isPresent)
+        if(categoryPresent)
         {
             throw new ApiException("Category Already Present", Constants.HttpCodes.BAD_REQUEST)
         }
@@ -197,12 +197,15 @@ class AdminApiController {
         def imei = request.getHeader("imei")
         User user = userService.getByImei(imei)
 
+        def name = request.JSON.name
         def udid = request.JSON.udid
+
+
         log.error(udid)
-        def response = adminService.getByUdid(udid)
+        def response = adminService.getByUdid(udid,name)
 
         if(!response) {
-            throw locateplusserver.ApiException('Udid not Present', Constants.HttpCodes.BAD_REQUEST)
+            throw new locateplusserver.ApiException('Udid not Present', Constants.HttpCodes.BAD_REQUEST)
         }
         else {
             user.udid = udid

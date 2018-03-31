@@ -38,7 +38,7 @@ class PhotoApiController {
             def uuid = fileName.toString()
 
             // Create new file with name as uuid
-            def os = new File("R:/temp/", fileName + ".png").newDataOutputStream()
+            def os = new File("F:/temp/", fileName + ".png").newDataOutputStream()
 
             // Get input Stream on file
             def is = uploadedFile.getInputStream()
@@ -83,7 +83,7 @@ class PhotoApiController {
 
                 def inAppropriateCount = member.inAppropriateCount
 
-                def file= new File("R:/temp/"+uuid+".png")
+                def file= new File("F:/temp/"+uuid+".png")
 
                 byte[] ba = IOUtils.copyToByteArray(file)
 
@@ -143,7 +143,7 @@ class PhotoApiController {
 
                 def inAppropriateCount = member.inAppropriateCount
 
-                def file= new File("R:/temp/"+uuid+".png")
+                def file= new File("F:/temp/"+uuid+".png")
 
                 byte[] ba = IOUtils.copyToByteArray(file)
 
