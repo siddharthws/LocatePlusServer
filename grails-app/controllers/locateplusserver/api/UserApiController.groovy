@@ -42,6 +42,7 @@ class UserApiController {
         def address = request.JSON.address
         def description = request.JSON.description
         def photosArray = request.JSON.photouuid
+        def contact = request.JSON.contact
 
         address.replaceAll("\\n", "")
 
@@ -58,7 +59,8 @@ class UserApiController {
                 longitude   : lng,
                 address     : address,
                 category    : category,
-                description : description
+                description : description,
+                contact     : contact
         )
 
         // Iterate over facilities and get each facility object
