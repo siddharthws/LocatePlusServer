@@ -303,7 +303,7 @@ class UserApiController {
         //save place object
         place.save(flush: true, failOnError: true)
 
-        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus]
+        def resp = [reviewResponse : reviewStatus , photoResponse : photoStatus, rating:stars, noOfUsers:noOfUsers  ]
 
         //return response
         render resp as JSON

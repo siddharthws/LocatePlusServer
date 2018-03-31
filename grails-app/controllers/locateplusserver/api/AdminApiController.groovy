@@ -120,7 +120,6 @@ class AdminApiController {
 
         category.delete(flush: true,failOnError: true)
 
-
     }
 
 
@@ -129,8 +128,6 @@ class AdminApiController {
         def facilityId = request.JSON.facilityId
 
         def facility = userService.getFacilityById(facilityId)
-
-
 
     }
 
