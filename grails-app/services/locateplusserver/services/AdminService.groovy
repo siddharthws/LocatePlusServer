@@ -5,6 +5,7 @@ import locateplusserver.domains.Admin
 import locateplusserver.domains.Facility
 import locateplusserver.ApiException
 import locateplusserver.Constants
+import locateplusserver.domains.Udid
 
 @Transactional
 class AdminService {
@@ -47,7 +48,12 @@ class AdminService {
 
     }
 
+    def getByUdid(String udid) {
 
+        def udidList = Udid.findAllByUdid(udid)
+
+        udidList
+    }
 
     // ----------------------- Private methods ---------------------------//
 

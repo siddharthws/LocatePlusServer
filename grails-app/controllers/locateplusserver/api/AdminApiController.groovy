@@ -7,6 +7,7 @@ import locateplusserver.domains.Facility
 import locateplusserver.domains.Category
 import locateplusserver.domains.Place
 import locateplusserver.domains.Udid
+import locateplusserver.domains.User
 
 class AdminApiController {
 
@@ -192,5 +193,27 @@ class AdminApiController {
         render resp as JSON
     }
 
+    def validateUdid() {
+
+        log.error("udid validate request")
+
+        def imei = request.getHeader("imei")
+        User user = userService.getByImei(imei)
+
+        def udid = request.JSON.udid
+        log.error(udid)
+        def response = adminService.getByUdid(udid)
+
+        if(!response) {
+            throw locateplusserver.ApiException('Udid not Present', Constants.HttpCodes.BAD_REQUEST)
+        }
+        else {
+            user.udid = udid
+            user.save(flush:true, failOnError: true)
+        }
+
+        def resp = [success : true]
+        render resp as JSON
+    }
     // ----------------------- Private APIs ---------------------------//
 }

@@ -127,11 +127,11 @@ class ImportService {
 
         rows.eachWithIndex { row, i ->
             // Get all rows with this ID
-            def duplicates = rows.findAll { it -> it[udId] == null }
+            def duplicates = rows.findAll { it -> it[udId] == row[udId] }
 
             if (duplicates.size() > 0) {
                 // Throw exception
-                throw new locateplusserver.ApiException("Null udid found")
+                throw new locateplusserver.ApiException("Duplicate UDID found")
             }
         }
 
@@ -168,6 +168,5 @@ class ImportService {
             ]
 
             udidJson
-
     }
 }
