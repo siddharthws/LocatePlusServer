@@ -7,4 +7,5 @@ databaseChangeLog = {
     include file: 'arating-dd-db.groovy'
     include file: 'add-placddb.groovy'
     include file: 'udid.groovy'
+    include file: 'add-ratingb.groovy'
 }
