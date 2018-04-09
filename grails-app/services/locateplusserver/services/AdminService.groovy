@@ -52,7 +52,7 @@ class AdminService {
 
         def udidList = Udid.findByUdidAndName(udid,name)
 
-        udidList
+        udid
     }
 
     // ----------------------- Private methods ---------------------------//

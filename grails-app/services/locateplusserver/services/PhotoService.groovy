@@ -90,9 +90,9 @@ class PhotoService {
 
     }
 
-    def getPhotoByUuid(String uuid){
+    Photo getPhotoByUuid(String uuid){
 
-        Photo photo = Photo.getFindByUuid(uuid)
+        Photo photo = Photo.findByUuid(uuid)
 
         photo
     }

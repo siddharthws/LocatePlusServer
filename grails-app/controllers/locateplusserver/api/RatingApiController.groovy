@@ -18,13 +18,14 @@ class RatingApiController {
 
     def photoRating(){
 
+        log.error("photo Rating")
         def imei = request.getHeader("imei")
         def placeId = request.JSON.placeId
 
         // get user object by imei
         def user = userService.getByImei(imei)
 
-        if(!user) {
+               if(!user) {
             throw new ApiException("Not registered", Constants.HttpCodes.BAD_REQUEST)
         }
 
@@ -71,6 +72,7 @@ class RatingApiController {
 
     def infoRating(){
 
+        log.error("Info Rating")
         def imei = request.getHeader("imei")
 
         // get user object by imei
@@ -117,6 +119,7 @@ class RatingApiController {
 
     def facilitiesRating(){
 
+        log.error("facilities Rating")
         def imei = request.getHeader("imei")
 
         // get user object by imei

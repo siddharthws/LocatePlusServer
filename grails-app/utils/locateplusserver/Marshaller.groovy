@@ -35,7 +35,8 @@ class Marshaller {
                 facilities :   facilities,
                 description :  place.description,
                 stars :        stars,
-                noOfUsers:     noOfUsers
+                noOfUsers:     noOfUsers,
+                contact :      place.contactNumber
         ]
     }
 
